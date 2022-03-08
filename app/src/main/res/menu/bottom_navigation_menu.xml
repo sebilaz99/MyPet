@@ -3,30 +3,30 @@
     <item
         android:id="@+id/vaccinations"
         android:enabled="true"
-        android:icon="@drawable/ic_vaccine"
-        android:title="Vaccinations"/>
+        android:icon="@drawable/ic_medicine"
+        android:title="Vaccinations" />
 
     <item
         android:id="@+id/treatments"
         android:enabled="true"
-        android:icon="@drawable/ic_medicine"
-        android:title="Treatments"/>
+        android:icon="@drawable/ic_vaccine"
+        android:title="Treatments" />
 
     <item
         android:id="@+id/home"
         android:enabled="true"
         android:icon="@drawable/ic_home"
-        android:title="Home"/>
+        android:title="Home" />
 
     <item
         android:id="@+id/food"
         android:enabled="true"
         android:icon="@drawable/ic_food"
-        android:title="Food"/>
+        android:title="Food" />
 
     <item
         android:id="@+id/extra"
         android:enabled="true"
         android:icon="@drawable/ic_extra"
-        android:title="Extra"/>
+        android:title="Extra" />
 </menu>
