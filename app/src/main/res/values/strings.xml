@@ -1,5 +1,27 @@
 <resources>
     <string name="app_name">MyPet</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="species">
+        <item>Bird</item>
+        <item>Cat</item>
+        <item>Dog</item>
+        <item>Exotic</item>
+        <item>Fish</item>
+        <item>Rodent</item>
+    </string-array>
+
+    <string-array name="colours">
+        <item>Bird</item>
+        <item>Cat</item>
+        <item>Dog</item>
+        <item>Exotic</item>
+        <item>Fish</item>
+        <item>Rodent</item>
+    </string-array>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
 </resources>
