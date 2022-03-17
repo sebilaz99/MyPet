@@ -4,13 +4,13 @@ data class Pet(
     val id: String,
     val name: String,
     val sex: Sex,
-    val age: Int,
     val dateOfBirth: String,
     val species: Species,
     val breed: String,
     val colour: Colour,
     // ???
-    val photo : String
+    val photo : String,
+    val score: Int
 )
 
 enum class Species {
