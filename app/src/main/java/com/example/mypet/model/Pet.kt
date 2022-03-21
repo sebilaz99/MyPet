@@ -1,5 +1,8 @@
 package com.example.mypet.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 data class Pet(
     val id: String,
     val name: String,
@@ -13,15 +16,18 @@ data class Pet(
     val score: Int
 )
 
-enum class Species {
+@Parcelize
+enum class Species : Parcelable {
     Cat, Dog, Fish, Bird, Exotic, Rodent
 }
 
-enum class Colour {
+@Parcelize
+enum class Colour : Parcelable {
     BLACK, BROWN, BLONDE, WHITE, MULTI, YELLOW, BLUE, RED, GREEN, GREY
 }
 
-enum class Sex {
+@Parcelize
+enum class Sex : Parcelable {
     M, F
 }
 
