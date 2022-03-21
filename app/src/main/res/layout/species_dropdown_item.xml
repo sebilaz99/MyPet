@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:padding="15dp"
     android:text="species"
-    android:textSize="20sp">
+    android:textSize="20sp"
+    android:textAppearance="?attr/textAppearanceSubtitle1">
 
 </TextView>
