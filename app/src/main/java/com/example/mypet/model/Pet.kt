@@ -6,14 +6,15 @@ import kotlinx.parcelize.Parcelize
 data class Pet(
     val id: String,
     val name: String,
-    val sex: Sex,
+    val sex: String,
     val dateOfBirth: String,
-    val species: Species,
+    val species: String,
     val breed: String,
-    val colour: Colour,
+    val colour: String,
     // ???
     val photo : String,
-    val score: Int
+    val score: Int,
+    val owner: Owner
 )
 
 @Parcelize
@@ -23,7 +24,7 @@ enum class Species : Parcelable {
 
 @Parcelize
 enum class Colour : Parcelable {
-    BLACK, BROWN, BLONDE, WHITE, MULTI, YELLOW, BLUE, RED, GREEN, GREY
+    Black, Brown, Blonde, White, Multi, Yellow, Blue, Red, Green, Grey
 }
 
 @Parcelize

@@ -18,6 +18,13 @@
         android:title="Settings" />
 
     <item
+        android:id="@+id/factsItem"
+        android:enabled="true"
+        android:icon="@drawable/ic_star"
+        android:iconTint="@color/black"
+        android:title="Fun Facts" />
+
+    <item
         android:id="@+id/signOutItem"
         android:enabled="true"
         android:icon="@drawable/ic_signout"

@@ -87,44 +87,33 @@
 
     <RadioGroup
         android:id="@+id/sexRadioGroup"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/edittext_bg"
-        android:orientation="vertical"
-        android:translationX="0dp"
+        android:orientation="horizontal"
+        android:translationX="-20dp"
+        android:translationY="-140dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.823"
-        app:layout_constraintStart_toEndOf="@id/iv"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
         app:layout_constraintVertical_bias="0.63">
 
         <RadioButton
             android:id="@+id/mRadioButton"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_bg"
             android:text="M" />
 
         <RadioButton
             android:id="@+id/fRadioButton"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="F" />
 
     </RadioGroup>
-
-    <ImageView
-        android:id="@+id/iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/animated_cat"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/sexRadioGroup"
-        app:layout_constraintHorizontal_bias="0.36"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
