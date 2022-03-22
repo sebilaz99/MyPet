@@ -1,0 +1,1 @@
+A virtual health book for your pet. It keeps the owner in touch with pet's happiness level, by taking into account several aspects (e.g. food provided, whether vaccines and medication is up-to-date etc.)
