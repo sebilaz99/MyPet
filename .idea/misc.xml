@@ -15,14 +15,17 @@
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/drawable/circle_yellow.xml" value="0.171" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/drawable/edittext_bg.xml" value="0.171" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/drawable/ic_arrow_down.xml" value="0.171" />
+        <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/activity_login.xml" value="0.1796875" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/activity_register.xml" value="0.1" />
+        <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/activity_splash_screen.xml" value="0.1796875" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/app_bar.xml" value="0.1796875" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/colors_dropdown_item.xml" value="0.1796875" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/edittext_bg.xml" value="0.1796875" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/fragment_extra.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/fragment_food.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/fragment_home.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/fragment_login.xml" value="0.1796875" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/fragment_register1.xml" value="0.11206896551724138" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/fragment_register2.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/fragment_register3.xml" value="0.1796875" />
@@ -32,6 +35,8 @@
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/species_dropdown_item.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.1796875" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/menu/navigation_menu.xml" value="0.1796875" />
+        <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.171" />
+        <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.171" />
       </map>
     </option>
   </component>
