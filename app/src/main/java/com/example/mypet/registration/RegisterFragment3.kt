@@ -15,6 +15,7 @@ import com.example.mypet.R
 import com.example.mypet.model.Owner
 import com.example.mypet.model.Pet
 import com.example.mypet.model.Sex
+import com.example.mypet.model.UserStatus
 import com.example.mypet.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -45,9 +46,7 @@ class RegisterFragment3 : Fragment(R.layout.fragment_register3) {
         val sex = args.sex
         val color = args.colour
         val dob = args.dob
-        val email = emailET.text.toString().trim()
-        val password = passwordET.text.toString().trim()
-        val password2 = passwordET2.text.toString().trim()
+
 
         auth = FirebaseAuth.getInstance()
 
@@ -58,6 +57,10 @@ class RegisterFragment3 : Fragment(R.layout.fragment_register3) {
         }
 
         finishRegBtn.setOnClickListener {
+            val email = emailET.text.toString().trim()
+            val password = passwordET.text.toString().trim()
+            val password2 = passwordET2.text.toString().trim()
+
             if (TextUtils.isEmpty(email)) {
                 Toast.makeText(context, "Please type your email", Toast.LENGTH_SHORT).show()
             } else if (TextUtils.isEmpty(password)) {
@@ -80,10 +83,10 @@ class RegisterFragment3 : Fragment(R.layout.fragment_register3) {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             ownerId = auth.currentUser!!.uid
-                            reference = FirebaseDatabase.getInstance().reference.child("Owner")
+                            reference = FirebaseDatabase.getInstance().reference.child("Pet")
                                 .child(ownerId)
 
-                            val owner = Owner(email, password)
+                            val owner = Owner(email, password, UserStatus.ONLINE.toString())
                             val pet = Pet(
                                 ownerId,
                                 name,
