@@ -4,9 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.mypet.login.Login
@@ -16,8 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,13 +31,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var user: FirebaseUser
     private lateinit var reference: DatabaseReference
+    private lateinit var petReference: DatabaseReference
     private var ownerId = ""
+
+    private val progress = 0
 
     lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.medium_green)
 
         auth = FirebaseAuth.getInstance()
 
@@ -53,9 +59,14 @@ class MainActivity : AppCompatActivity() {
 
         val header = nv.getHeaderView(0)
 
+        val xpTV = header.findViewById<TextView>(R.id.xpTextView)
+        val nameTV = header.findViewById<TextView>(R.id.petNameTextView)
+
         toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+
+        val progressBar = header.findViewById<ProgressBar>(R.id.progressBar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -74,15 +85,43 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        petReference = FirebaseDatabase.getInstance().reference.child("Pet")
+            .child(ownerId)
 
-        val xp = header.findViewById<TextView>(R.id.xpTextView)
-        xp.text = 20.toString()
+        petReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val name = snapshot.child("name").value
+                val score = snapshot.child("score").value
+                val photo = snapshot.child("photo").value
+
+                xpTV.text = score.toString()
+                nameTV.text = name.toString()
+
+                if (score.toString().toInt() in 75..100) {
+                    xpTV.setTextColor(resources.getColor(R.color.medium_green))
+                } else if (score.toString().toInt() in 31..74) {
+                    xpTV.setTextColor(resources.getColor(R.color.yellow))
+                } else if (score.toString().toInt() in 0..30) {
+                    xpTV.setTextColor(resources.getColor(R.color.red))
+                }
+
+                progressBar.progress = score.toString().toInt()
+                progressBar.max = 100
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
 
         bnv.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.extra ->
                     replaceFragment(extraFragment)
-                R.id.home -> replaceFragment(homeFragment)
+                R.id.home ->
+                    replaceFragment(homeFragment)
                 R.id.food -> replaceFragment(foodFragment)
                 R.id.treatments -> replaceFragment(treatmentsFragment)
                 R.id.vaccinations -> replaceFragment(vaccinationsFragment)

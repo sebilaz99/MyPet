@@ -14,7 +14,6 @@ import com.example.mypet.MainActivity
 import com.example.mypet.R
 import com.example.mypet.model.Owner
 import com.example.mypet.model.Pet
-import com.example.mypet.model.Sex
 import com.example.mypet.model.UserStatus
 import com.example.mypet.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
