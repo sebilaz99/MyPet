@@ -45,8 +45,7 @@ class SplashScreen : AppCompatActivity() {
                 reference.addValueEventListener(object :
                     ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        val status = dataSnapshot.child("status").value
-                        when (status) {
+                        when (dataSnapshot.child("status").value) {
                             UserStatus.ONLINE.toString() -> startActivity(
                                 Intent(
                                     applicationContext,

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_green"
+    tools:context=".ui.activities.Profile">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/photoIV"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/dog_placeholder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.096" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/editPhotoBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/circle_grey"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/photoIV"
+        app:layout_constraintTop_toTopOf="@+id/photoIV"
+        app:layout_constraintVertical_bias="0.183" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/rounded_rectangular_reversed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photoIV"
+        app:layout_constraintVertical_bias="0.365">
+
+        <EditText
+            android:id="@+id/nameET"
+            android:layout_width="270dp"
+            android:layout_height="40dp"
+            android:background="@drawable/edittext_bg"
+            android:hint="Your pet's name here"
+            android:textAlignment="center"
+            android:textColorHint="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.132" />
+
+
+        <EditText
+            android:id="@+id/breedET"
+            android:layout_width="270dp"
+            android:layout_height="40dp"
+            android:background="@drawable/edittext_bg"
+            android:hint="Your pet's breed here"
+            android:textAlignment="center"
+            android:textColorHint="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameET"
+            app:layout_constraintVertical_bias="0.131" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dobBtn"
+            android:layout_width="270dp"
+            android:layout_height="40dp"
+            android:background="@drawable/edittext_bg"
+            android:text="Choose pet's birthday"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/breedET"
+            app:layout_constraintVertical_bias="0.176" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/saveButton"
+            android:layout_width="270dp"
+            android:layout_height="40dp"
+            android:background="@color/light_green"
+            android:text="Save"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dobBtn"
+            app:layout_constraintVertical_bias="0.483" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        android:background="@color/medium_green"
+        app:itemTextAppearanceActive="@color/grey"
+        app:itemTextAppearanceInactive="@color/white"
+        app:itemTextColor="#2B301B"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.95"
+        app:menu="@menu/bottom_navigation_menu" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
