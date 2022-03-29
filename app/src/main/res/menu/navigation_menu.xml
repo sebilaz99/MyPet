@@ -3,19 +3,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item
-        android:id="@+id/profileItem"
-        android:enabled="true"
-        android:icon="@drawable/ic_profile"
-        android:iconTint="@color/black"
-        android:title="Profile" />
+    <group
+        android:id="@+id/top_group"
+        android:checkableBehavior="none">
 
-    <item
-        android:id="@+id/settingsItem"
-        android:enabled="true"
-        android:icon="@drawable/ic_settings"
-        android:iconTint="@color/black"
-        android:title="Settings" />
+        <item
+            android:id="@+id/profileItem"
+            android:enabled="true"
+            android:icon="@drawable/ic_profile"
+            android:iconTint="@color/black"
+            android:title="Profile" />
+
+    </group>
+
+    <group
+        android:id="@+id/middle_group"
+        android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/vaccinesItem"
+            android:enabled="true"
+            android:icon="@drawable/ic_medicine"
+            android:iconTint="@color/black"
+            android:title="Vaccines" />
+
+        <item
+            android:id="@+id/medicationItem"
+            android:enabled="true"
+            android:icon="@drawable/ic_vaccine"
+            android:iconTint="@color/black"
+            android:title="Medication" />
+
+        <item
+            android:id="@+id/foodItem"
+            android:enabled="true"
+            android:icon="@drawable/ic_food"
+            android:iconTint="@color/black"
+            android:title="Food" />
+
+        <item
+            android:id="@+id/extraItem"
+            android:enabled="true"
+            android:icon="@drawable/ic_extra"
+            android:iconTint="@color/black"
+            android:title="Extra" />
+    </group>
 
     <item
         android:id="@+id/factsItem"
@@ -23,6 +55,13 @@
         android:icon="@drawable/ic_star"
         android:iconTint="@color/black"
         android:title="Fun Facts" />
+
+    <item
+        android:id="@+id/settingsItem"
+        android:enabled="true"
+        android:icon="@drawable/ic_settings"
+        android:iconTint="@color/black"
+        android:title="Settings" />
 
     <item
         android:id="@+id/signOutItem"

@@ -24,6 +24,7 @@ class Login : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var reference: DatabaseReference
     private lateinit var ownerId: String
+    private lateinit var user: FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +39,8 @@ class Login : AppCompatActivity() {
         val regTV = findViewById<TextView>(R.id.registerTextView)
 
         auth = FirebaseAuth.getInstance()
-
-        ownerId = auth.currentUser!!.uid
+        user = auth.currentUser!!
+        ownerId = user.uid
 
         reference = FirebaseDatabase.getInstance().reference.child("Pet")
             .child(ownerId).child("owner")
