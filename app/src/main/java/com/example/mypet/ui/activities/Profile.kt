@@ -3,8 +3,6 @@ package com.example.mypet.ui.activities
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
@@ -12,17 +10,16 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.example.mypet.MainActivity
 import com.example.mypet.R
 import com.example.mypet.utils.Constants
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
 import de.hdodenhof.circleimageview.CircleImageView
 import java.text.SimpleDateFormat
 import java.time.Year
@@ -36,7 +33,7 @@ class Profile : AppCompatActivity() {
     private lateinit var ownerId: String
     private lateinit var storageRef: StorageReference
     private lateinit var storage: FirebaseStorage
-    private lateinit var photoRef : StorageReference
+    private lateinit var photoRef: StorageReference
     val taskMap: MutableMap<String, Any> = HashMap()
     private lateinit var photo: CircleImageView
     private lateinit var saveBtn: AppCompatButton
@@ -50,10 +47,11 @@ class Profile : AppCompatActivity() {
         val breed = findViewById<EditText>(R.id.breedET)
         val dob = findViewById<AppCompatButton>(R.id.dobBtn)
         saveBtn = findViewById<AppCompatButton>(R.id.saveButton)
-        val bnv = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         val photoBtn = findViewById<AppCompatImageView>(R.id.editPhotoBtn)
         photo = findViewById(R.id.photoIV)
+        val constraint = findViewById<ConstraintLayout>(R.id.bottomConstraint)
 
+        window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.medium_green)
 
         val actionBar: ActionBar? = supportActionBar
         actionBar.apply {
@@ -80,7 +78,7 @@ class Profile : AppCompatActivity() {
                 dob.text = dobSnapshot.toString()
 //                Glide.with(applicationContext)
 //                    .load(Drawable.)
-//                    .into(photo);
+//                    .into(photo);3
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -126,17 +124,8 @@ class Profile : AppCompatActivity() {
             openGalleryForImage()
         }
 
-        bnv.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.extra ->
-                    " replaceFragment(extraFragment)"
-                R.id.home ->
-                    startActivity(Intent(this, MainActivity::class.java))
-                R.id.food -> "replaceFragment(foodFragment)"
-                R.id.treatments -> "replaceFragment(treatmentsFragment)"
-                R.id.vaccinations -> "replaceFragment(vaccinationsFragment)"
-            }
-            true
+        constraint.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
     }

@@ -69,5 +69,38 @@
         android:id="@+id/homeFragment"
         android:name="com.example.mypet.ui.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_extraFragment"
+            app:destination="@id/extraFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_treatmentsFragment"
+            app:destination="@id/treatmentsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_vaccinationsFragment"
+            app:destination="@id/vaccinationsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_foodFragment"
+            app:destination="@id/foodFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/extraFragment"
+        android:name="com.example.mypet.ui.fragments.ExtraFragment"
+        android:label="fragment_extra"
+        tools:layout="@layout/fragment_extra" />
+    <fragment
+        android:id="@+id/treatmentsFragment"
+        android:name="com.example.mypet.ui.fragments.TreatmentsFragment"
+        android:label="fragment_treatments"
+        tools:layout="@layout/fragment_treatments" />
+    <fragment
+        android:id="@+id/vaccinationsFragment"
+        android:name="com.example.mypet.ui.fragments.VaccinationsFragment"
+        android:label="fragment_vaccinations"
+        tools:layout="@layout/fragment_vaccinations" />
+    <fragment
+        android:id="@+id/foodFragment"
+        android:name="com.example.mypet.ui.fragments.FoodFragment"
+        android:label="fragment_food"
+        tools:layout="@layout/fragment_food" />
 </navigation>
