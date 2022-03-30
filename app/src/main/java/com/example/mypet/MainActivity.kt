@@ -14,6 +14,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.mypet.login.Login
 import com.example.mypet.model.UserStatus
+import com.example.mypet.ui.activities.FunFacts
 import com.example.mypet.ui.activities.Profile
 import com.example.mypet.ui.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -86,6 +87,11 @@ class MainActivity : AppCompatActivity() {
                     reference.updateChildren(taskMap)
                     val intent = Intent(this, Login::class.java)
                     startActivity(intent)
+                }
+
+                R.id.factsItem -> {
+                    startActivity(Intent(this, FunFacts::class.java))
+                    Log.d("Nav", "Profile")
                 }
             }
             true
