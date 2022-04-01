@@ -16,6 +16,7 @@ import com.example.mypet.login.Login
 import com.example.mypet.model.UserStatus
 import com.example.mypet.ui.activities.FunFacts
 import com.example.mypet.ui.activities.Profile
+import com.example.mypet.ui.activities.Vaccination
 import com.example.mypet.ui.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -88,10 +89,13 @@ class MainActivity : AppCompatActivity() {
                     val intent = Intent(this, Login::class.java)
                     startActivity(intent)
                 }
-
                 R.id.factsItem -> {
                     startActivity(Intent(this, FunFacts::class.java))
-                    Log.d("Nav", "Profile")
+                    Log.d("Nav", "Facts")
+                }
+                R.id.vaccinesItem -> {
+                    startActivity(Intent(this, Vaccination::class.java))
+                    Log.d("Nav", "Vaccines")
                 }
             }
             true

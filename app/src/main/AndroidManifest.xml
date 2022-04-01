@@ -4,7 +4,8 @@
     package="com.example.mypet">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,6 +16,9 @@
         android:roundIcon="@drawable/paw"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPet">
+        <activity
+            android:name=".ui.activities.Vaccination"
+            android:exported="false" />
         <activity
             android:name=".ui.activities.FunFacts"
             android:exported="false" />
