@@ -15,10 +15,11 @@ import androidx.fragment.app.Fragment
 import com.example.mypet.login.Login
 import com.example.mypet.model.UserStatus
 import com.example.mypet.ui.activities.FunFacts
+import com.example.mypet.ui.activities.Medication
 import com.example.mypet.ui.activities.Profile
 import com.example.mypet.ui.activities.Vaccination
-import com.example.mypet.ui.fragments.*
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.mypet.ui.fragments.FoodFragment
+import com.example.mypet.ui.fragments.HomeFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -96,6 +97,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.vaccinesItem -> {
                     startActivity(Intent(this, Vaccination::class.java))
                     Log.d("Nav", "Vaccines")
+                }
+                R.id.medicationItem -> {
+                    startActivity(Intent(this, Medication::class.java))
+                    Log.d("Nav", "Medication")
                 }
             }
             true

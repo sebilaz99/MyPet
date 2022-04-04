@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPet">
         <activity
+            android:name=".ui.activities.Medication"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.Vaccination"
             android:exported="false" />
         <activity

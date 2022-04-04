@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mypet.MainActivity
 import com.example.mypet.R
-import com.example.mypet.adapter.VaccinesAdapter
-import com.example.mypet.model.Vaccine
-import com.example.mypet.model.VaccineType
+import com.example.mypet.adapter.MedicationAdapter
+import com.example.mypet.model.Medication
+import com.example.mypet.model.MedicationType
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -25,24 +25,24 @@ import java.text.SimpleDateFormat
 import java.time.Year
 import java.util.*
 
-class Vaccination : AppCompatActivity() {
+class Medication : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var ownerId: String
     private lateinit var reference: DatabaseReference
     private lateinit var rv: RecyclerView
-    private lateinit var vaccineList: ArrayList<Vaccine>
+    private lateinit var medicationList: ArrayList<Medication>
     lateinit var adapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_vaccination)
+        setContentView(R.layout.activity_medication)
 
         window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.medium_green)
 
-        supportActionBar?.title = "Vaccines"
+        supportActionBar?.title = "Medication"
 
-        val addBtn = findViewById<AppCompatButton>(R.id.addVaxBtn)
+        val addBtn = findViewById<AppCompatButton>(R.id.addMedBtn)
         val startDateBtn = findViewById<AppCompatButton>(R.id.dateBtn)
         val endDateBtn = findViewById<AppCompatButton>(R.id.expBtn)
         val typeACTV = findViewById<AutoCompleteTextView>(R.id.typeAutoCompleteTextView)
@@ -50,19 +50,18 @@ class Vaccination : AppCompatActivity() {
         val middleConstraint = findViewById<ConstraintLayout>(R.id.middleConstraint)
 
         val typesList = mutableListOf<String>()
-        for (type in VaccineType.values()) {
+        for (type in MedicationType.values()) {
             typesList.add(type.toString())
         }
 
         adapter = ArrayAdapter(this, R.layout.types_dropdown_item, typesList)
         typeACTV.setAdapter(adapter)
 
-        rv = findViewById(R.id.vaccinesRV)
+        rv = findViewById(R.id.medicationsRV)
         rv.layoutManager = LinearLayoutManager(this)
         rv.setHasFixedSize(true)
 
-
-        vaccineList = arrayListOf()
+        medicationList = arrayListOf()
 
         val calendar = Calendar.getInstance()
         val calendar2 = Calendar.getInstance()
@@ -98,11 +97,11 @@ class Vaccination : AppCompatActivity() {
         }
 
 
-
         addBtn.setOnClickListener {
             val brand = findViewById<EditText>(R.id.brandET)
             val brandStr = brand.text.toString().trim()
             val type = typeACTV.text.toString()
+
 
             if (startDateBtn.text.toString() == "Administration Date") {
                 startDateBtn.text = "??-??-????"
@@ -111,18 +110,14 @@ class Vaccination : AppCompatActivity() {
                 endDateBtn.text = "??-??-????"
             }
 
-//            if (SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(endDateBtn.text.toString())
-//                    .compareTo(Calendar.getInstance().time) == -1)
 
-
-            val vaccine =
-                Vaccine(brandStr, startDateBtn.text.toString(), endDateBtn.text.toString(), type)
+            val med =
+                Medication(brandStr, startDateBtn.text.toString(), endDateBtn.text.toString(), type)
 
             reference = FirebaseDatabase.getInstance().reference.child("Pet")
-                .child(ownerId).child("vaccines")
-            reference.push().setValue(vaccine)
-            Toast.makeText(this, "New vaccine has been added!", Toast.LENGTH_SHORT).show()
-
+                .child(ownerId).child("medication")
+            reference.push().setValue(med)
+            Toast.makeText(this, "New medication has been added!", Toast.LENGTH_SHORT).show()
         }
 
         startDateBtn.setOnClickListener {
@@ -144,18 +139,19 @@ class Vaccination : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
 
-        fetchVaccineList()
+        fetchMedicationList()
+
     }
 
-    private fun fetchVaccineList() {
+    private fun fetchMedicationList() {
         auth = FirebaseAuth.getInstance()
         ownerId = auth.currentUser!!.uid
         reference = FirebaseDatabase.getInstance().reference.child("Pet")
-            .child(ownerId).child("vaccines")
+            .child(ownerId).child("medication")
 
 
-        val options = FirebaseRecyclerOptions.Builder<Vaccine>()
-            .setQuery(reference, Vaccine::class.java)
+        val options = FirebaseRecyclerOptions.Builder<Medication>()
+            .setQuery(reference, Medication::class.java)
             .setLifecycleOwner(this)
             .build()
 
@@ -167,11 +163,11 @@ class Vaccination : AppCompatActivity() {
                         val adminDate = item.child("date").value.toString()
                         val expDate = item.child("exp").value.toString()
                         val type = item.child("type").value.toString()
-                        val vaccine = Vaccine(brand, adminDate, expDate, type)
-                        vaccineList.add(vaccine)
+                        val med = Medication(brand, adminDate, expDate, type)
+                        medicationList.add(med)
                     }
 
-                    rv.adapter = VaccinesAdapter(options)
+                    rv.adapter = MedicationAdapter(options)
                 }
 
             }
