@@ -20,4 +20,5 @@
     <color name="dark_green">#009900</color>
     <color name="medium_green">#80cc80</color>
     <color name="light_green">#ccebcc</color>
+    <color name="light_green_transparent">#75CCEBCC</color>
 </resources>

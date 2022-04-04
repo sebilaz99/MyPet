@@ -3,6 +3,7 @@ package com.example.mypet.ui.activities
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
@@ -16,12 +17,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mypet.MainActivity
 import com.example.mypet.R
 import com.example.mypet.adapter.MedicationAdapter
+import com.example.mypet.model.ExpiredItem
 import com.example.mypet.model.Medication
 import com.example.mypet.model.MedicationType
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.Year
 import java.util.*
 
@@ -30,6 +34,7 @@ class Medication : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var ownerId: String
     private lateinit var reference: DatabaseReference
+    private lateinit var expReference: DatabaseReference
     private lateinit var rv: RecyclerView
     private lateinit var medicationList: ArrayList<Medication>
     lateinit var adapter: ArrayAdapter<String>
@@ -42,12 +47,12 @@ class Medication : AppCompatActivity() {
 
         supportActionBar?.title = "Medication"
 
-        val addBtn = findViewById<AppCompatButton>(R.id.addMedBtn)
+        val addBtn = findViewById<FloatingActionButton>(R.id.addMedBtn)
         val startDateBtn = findViewById<AppCompatButton>(R.id.dateBtn)
         val endDateBtn = findViewById<AppCompatButton>(R.id.expBtn)
         val typeACTV = findViewById<AutoCompleteTextView>(R.id.typeAutoCompleteTextView)
         val bottomConstraint = findViewById<ConstraintLayout>(R.id.bottomConstraint)
-        val middleConstraint = findViewById<ConstraintLayout>(R.id.middleConstraint)
+
 
         val typesList = mutableListOf<String>()
         for (type in MedicationType.values()) {
@@ -111,6 +116,30 @@ class Medication : AppCompatActivity() {
             }
 
 
+            val currentDate = LocalDate.now().toString()
+            val currentYear = currentDate.subSequence(0, 4).toString()
+            val currentMonth = currentDate.subSequence(5, 7).toString()
+            val currentDay = currentDate.subSequence(8, 10).toString()
+            val currentDateStringFormat = "$currentDay-$currentMonth-$currentYear"
+            val currentDateNewFormat =
+                SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(currentDateStringFormat)
+            val expDate =
+                SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(endDateBtn.text.toString())
+            val expDateString = endDateBtn.text.toString()
+
+            expReference = FirebaseDatabase.getInstance().reference.child("Pet")
+                .child(ownerId).child("expired")
+
+
+            if (currentDateNewFormat.before(expDate)) {
+                Log.d("VAX DATE", "NOT EXPIRED")
+            } else {
+                val item = ExpiredItem("Medication", type, expDateString)
+                expReference.push().setValue(item)
+                Log.d("VAX DATE", "EXPIRED")
+            }
+
+
             val med =
                 Medication(brandStr, startDateBtn.text.toString(), endDateBtn.text.toString(), type)
 
@@ -132,15 +161,7 @@ class Medication : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
-        middleConstraint.setOnClickListener {
-            finish()
-            overridePendingTransition(0, 0)
-            startActivity(intent)
-            overridePendingTransition(0, 0)
-        }
-
         fetchMedicationList()
-
     }
 
     private fun fetchMedicationList() {

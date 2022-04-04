@@ -8,8 +8,8 @@
 
     <EditText
         android:id="@+id/brandET"
-        android:layout_width="150dp"
-        android:layout_height="55dp"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/edittext_bg"
@@ -25,9 +25,9 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="150dp"
-        android:layout_height="55dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/edittext_bg"
@@ -53,7 +53,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/dateBtn"
-        android:layout_width="150dp"
+        android:layout_width="140dp"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:background="@drawable/edittext_bg"
@@ -81,69 +81,32 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
         app:layout_constraintVertical_bias="0.035" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/addVaxBtn"
-        android:layout_width="310dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@color/light_green"
-        android:text="Add Vaccine"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateBtn"
-        app:layout_constraintVertical_bias="0.041" />
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
-        android:layout_width="310dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/vaccinesRV"
+        android:layout_width="320dp"
         android:layout_height="300dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:background="@color/light_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.373"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addVaxBtn"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/expBtn"
+        app:layout_constraintVertical_bias="0.114" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/vaccinesRV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="-27dp" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/middleConstraint"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/gray_000"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addVaxBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="@color/medium_green"
+        android:src="@drawable/ic_add_white"
+        android:translationY="30dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomConstraint"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toBottomOf="@+id/vaccinesRV" />
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_refresh"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomConstraint"
@@ -154,7 +117,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/vaccinesRV"
         app:layout_constraintVertical_bias="1">
 
         <ImageView
