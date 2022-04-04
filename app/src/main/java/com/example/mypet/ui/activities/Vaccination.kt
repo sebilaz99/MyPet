@@ -3,6 +3,7 @@ package com.example.mypet.ui.activities
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
@@ -16,12 +17,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mypet.MainActivity
 import com.example.mypet.R
 import com.example.mypet.adapter.VaccinesAdapter
+import com.example.mypet.model.ExpiredItem
 import com.example.mypet.model.Vaccine
 import com.example.mypet.model.VaccineType
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.Year
 import java.util.*
 
@@ -30,6 +34,7 @@ class Vaccination : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var ownerId: String
     private lateinit var reference: DatabaseReference
+    private lateinit var expReference: DatabaseReference
     private lateinit var rv: RecyclerView
     private lateinit var vaccineList: ArrayList<Vaccine>
     lateinit var adapter: ArrayAdapter<String>
@@ -42,12 +47,12 @@ class Vaccination : AppCompatActivity() {
 
         supportActionBar?.title = "Vaccines"
 
-        val addBtn = findViewById<AppCompatButton>(R.id.addVaxBtn)
+        val addBtn = findViewById<FloatingActionButton>(R.id.addVaxBtn)
         val startDateBtn = findViewById<AppCompatButton>(R.id.dateBtn)
         val endDateBtn = findViewById<AppCompatButton>(R.id.expBtn)
         val typeACTV = findViewById<AutoCompleteTextView>(R.id.typeAutoCompleteTextView)
         val bottomConstraint = findViewById<ConstraintLayout>(R.id.bottomConstraint)
-        val middleConstraint = findViewById<ConstraintLayout>(R.id.middleConstraint)
+
 
         val typesList = mutableListOf<String>()
         for (type in VaccineType.values()) {
@@ -98,7 +103,6 @@ class Vaccination : AppCompatActivity() {
         }
 
 
-
         addBtn.setOnClickListener {
             val brand = findViewById<EditText>(R.id.brandET)
             val brandStr = brand.text.toString().trim()
@@ -111,8 +115,29 @@ class Vaccination : AppCompatActivity() {
                 endDateBtn.text = "??-??-????"
             }
 
-//            if (SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(endDateBtn.text.toString())
-//                    .compareTo(Calendar.getInstance().time) == -1)
+
+            val currentDate = LocalDate.now().toString()
+            val currentYear = currentDate.subSequence(0, 4).toString()
+            val currentMonth = currentDate.subSequence(5, 7).toString()
+            val currentDay = currentDate.subSequence(8, 10).toString()
+            val currentDateStringFormat = "$currentDay-$currentMonth-$currentYear"
+            val currentDateNewFormat =
+                SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(currentDateStringFormat)
+            val expDate =
+                SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(endDateBtn.text.toString())
+            val expDateString = endDateBtn.text.toString()
+
+            expReference = FirebaseDatabase.getInstance().reference.child("Pet")
+                .child(ownerId).child("expired")
+
+
+            if (currentDateNewFormat.before(expDate)) {
+                Log.d("VAX DATE", "NOT EXPIRED")
+            } else {
+                val item = ExpiredItem("Vaccine", type, expDateString)
+                expReference.push().setValue(item)
+                Log.d("VAX DATE", "EXPIRED")
+            }
 
 
             val vaccine =
@@ -135,13 +160,6 @@ class Vaccination : AppCompatActivity() {
 
         bottomConstraint.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
-        }
-
-        middleConstraint.setOnClickListener {
-            finish()
-            overridePendingTransition(0, 0)
-            startActivity(intent)
-            overridePendingTransition(0, 0)
         }
 
         fetchVaccineList()

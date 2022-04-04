@@ -95,7 +95,7 @@ class RegisterFragment3 : Fragment(R.layout.fragment_register3) {
                                 breed,
                                 color,
                                 "",
-                                Constants.intialScore,
+                                Constants.initialScore,
                                 owner
                             )
                             reference.setValue(pet)

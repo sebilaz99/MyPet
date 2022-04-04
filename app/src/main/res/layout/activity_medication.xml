@@ -8,8 +8,8 @@
 
     <EditText
         android:id="@+id/brandET"
-        android:layout_width="150dp"
-        android:layout_height="55dp"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/edittext_bg"
@@ -18,16 +18,16 @@
         android:textColorHint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="150dp"
-        android:layout_height="55dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="140dp"
+        android:layout_height="50dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/edittext_bg"
@@ -43,9 +43,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/edittext_bg"
             android:inputType="none"
             android:text="Type"
-            tools:layout_editor_absoluteX="38dp"
+            tools:layout_editor_absoluteX="40dp"
             tools:layout_editor_absoluteY="540dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -53,7 +54,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/dateBtn"
-        android:layout_width="150dp"
+        android:layout_width="140dp"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:background="@drawable/edittext_bg"
@@ -61,14 +62,14 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/brandET"
         app:layout_constraintVertical_bias="0.036" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/expBtn"
-        android:layout_width="150dp"
+        android:layout_width="140dp"
         android:layout_height="50dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/edittext_bg"
@@ -76,74 +77,22 @@
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintHorizontal_bias="0.579"
         app:layout_constraintStart_toEndOf="@+id/dateBtn"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-        app:layout_constraintVertical_bias="0.035" />
+        app:layout_constraintVertical_bias="0.036" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/addMedBtn"
-        android:layout_width="310dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@color/light_green"
-        android:text="Add Medication"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateBtn"
-        app:layout_constraintVertical_bias="0.041" />
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
-        android:layout_width="310dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/medicationsRV"
+        android:layout_width="320dp"
         android:layout_height="300dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:background="@color/light_green"
+        android:translationY="-20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addMedBtn"
-        app:layout_constraintVertical_bias="0.0">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/medicationsRV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="-27dp" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/middleConstraint"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/gray_000"
-        app:layout_constraintBottom_toTopOf="@+id/bottomConstraint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
-        app:layout_constraintVertical_bias="1.0">
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_refresh"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@+id/expBtn"
+        app:layout_constraintVertical_bias="0.178" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomConstraint"
@@ -154,7 +103,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/dateBtn"
         app:layout_constraintVertical_bias="1">
 
         <ImageView
@@ -167,6 +116,20 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addMedBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="@color/medium_green"
+        android:src="@drawable/ic_add_white"
+        android:translationY="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomConstraint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/medicationsRV" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

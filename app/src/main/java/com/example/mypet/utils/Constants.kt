@@ -1,8 +1,7 @@
 package com.example.mypet.utils
 
 object Constants {
-    val intialScore = 100
+    const val initialScore = 100
 
-    val REQUEST_CODE = 100
-
+    const val REQUEST_CODE = 100
 }
