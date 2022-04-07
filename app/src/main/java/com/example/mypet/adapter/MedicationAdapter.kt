@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mypet.R
 import com.example.mypet.model.Medication
-import com.example.mypet.model.MedicationType
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 
@@ -41,26 +40,7 @@ class MedicationAdapter(items: FirebaseRecyclerOptions<Medication>) :
         holder.itemView.setOnLongClickListener {
             holder.deleteBtn.visibility = View.VISIBLE
             true
-        }
 
-        holder.itemView.setOnClickListener {
-            when (holder.medType.text) {
-                MedicationType.O.toString() -> Toast.makeText(
-                    it.context,
-                    "Type: Other",
-                    Toast.LENGTH_SHORT
-                ).show()
-                MedicationType.AP.toString() -> Toast.makeText(
-                    it.context,
-                    "Type: Anti-Parasitical",
-                    Toast.LENGTH_SHORT
-                ).show()
-                MedicationType.FT.toString() -> Toast.makeText(
-                    it.context,
-                    "Type: Flea&Tick",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
         }
 
         holder.deleteBtn.setOnClickListener {
