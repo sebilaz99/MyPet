@@ -3,17 +3,22 @@ package com.example.mypet.ui.activities
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.example.mypet.MainActivity
 import com.example.mypet.R
+import com.example.mypet.model.ProfileItem
 import com.example.mypet.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -33,19 +38,26 @@ class Profile : AppCompatActivity() {
     private lateinit var storageRef: StorageReference
     private lateinit var storage: FirebaseStorage
     private lateinit var photoRef: StorageReference
-    val taskMap: MutableMap<String, Any> = HashMap()
+    private lateinit var profileReference: DatabaseReference
+    private val taskMap: MutableMap<String, Any> = HashMap()
     private lateinit var photo: CircleImageView
     private lateinit var saveBtn: AppCompatButton
+    private lateinit var profileItemList: ArrayList<ProfileItem>
+    private lateinit var imageUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        val name = findViewById<EditText>(R.id.nameET)
-        val breed = findViewById<EditText>(R.id.breedET)
+        val name = findViewById<TextView>(R.id.nameTV)
+        val breed = findViewById<TextView>(R.id.breedTV)
+        val sex = findViewById<TextView>(R.id.genderTV)
         val dob = findViewById<AppCompatButton>(R.id.dobBtn)
-        saveBtn = findViewById<AppCompatButton>(R.id.saveButton)
+        val smallDog = findViewById<ImageView>(R.id.smallDogIV)
+        val mediumDog = findViewById<ImageView>(R.id.mediumDogIV)
+        val largeDog = findViewById<ImageView>(R.id.largeDogIV)
+        saveBtn = findViewById(R.id.saveButton)
         val photoBtn = findViewById<AppCompatImageView>(R.id.editPhotoBtn)
         photo = findViewById(R.id.photoIV)
         val constraint = findViewById<ConstraintLayout>(R.id.bottomConstraint)
@@ -64,20 +76,31 @@ class Profile : AppCompatActivity() {
             .child(ownerId)
 
 
+        storage = FirebaseStorage.getInstance()
+        storageRef = storage.reference
+
+
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val nameSnapshot = snapshot.child("name").value
                 val breedSnapshot = snapshot.child("breed").value
                 val dobSnapshot = snapshot.child("dateOfBirth").value
                 val photoSnapshot = snapshot.child("photo").value
+                val sexSnapshot = snapshot.child("sex").value
 
                 Log.d("SNAPSHOT", nameSnapshot.toString())
-                name.setText(nameSnapshot.toString())
-                breed.setText(breedSnapshot.toString())
+                name.text = nameSnapshot.toString()
+                breed.text = breedSnapshot.toString()
+                Glide.with(applicationContext)
+                    .load(photoSnapshot)
+                    .into(photo)
+
+                when (sexSnapshot.toString()) {
+                    "M" -> sex.text = "Male"
+                    "F" -> sex.text = "Female"
+                }
                 dob.text = dobSnapshot.toString()
-//                Glide.with(applicationContext)
-//                    .load(Drawable.)
-//                    .into(photo);3
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -117,6 +140,8 @@ class Profile : AppCompatActivity() {
             taskMap["name"] = name.text.toString()
             taskMap["breed"] = breed.text.toString()
             reference.updateChildren(taskMap)
+            Toast.makeText(this, "Profile updated!", Toast.LENGTH_SHORT).show()
+            uploadToStorage()
         }
 
         photoBtn.setOnClickListener {
@@ -127,10 +152,62 @@ class Profile : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
+        profileItemList = arrayListOf()
+
+        profileReference = FirebaseDatabase.getInstance().reference.child("Pet")
+            .child(ownerId).child("profile")
+
+        smallDog.setOnClickListener {
+            Toast.makeText(this, "size: small", Toast.LENGTH_LONG).show()
+            val size = "small"
+            val profileItem = ProfileItem(size)
+            profileReference.setValue(profileItem)
+        }
+
+        mediumDog.setOnClickListener {
+            Toast.makeText(this, "size: medium", Toast.LENGTH_LONG).show()
+            val size = "medium"
+            val profileItem = ProfileItem(size)
+            profileReference.setValue(profileItem)
+        }
+
+        largeDog.setOnClickListener {
+            Toast.makeText(this, "size: large", Toast.LENGTH_LONG).show()
+            val size = "large"
+            val profileItem = ProfileItem(size)
+            profileReference.setValue(profileItem)
+        }
+
+        profileReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                when (snapshot.child("size").value) {
+                    "small" -> {
+                        smallDog.setImageResource(R.drawable.white_dog)
+                        mediumDog.setImageResource(R.drawable.dog_size)
+                        largeDog.setImageResource(R.drawable.dog_size)
+                    }
+                    "medium" -> {
+                        mediumDog.setImageResource(R.drawable.white_dog)
+                        smallDog.setImageResource(R.drawable.dog_size)
+                        largeDog.setImageResource(R.drawable.dog_size)
+                    }
+                    "large" -> {
+                        largeDog.setImageResource(R.drawable.white_dog)
+                        smallDog.setImageResource(R.drawable.dog_size)
+                        mediumDog.setImageResource(R.drawable.dog_size)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
     }
 
     private fun openGalleryForImage() {
-        val intent = Intent(Intent.ACTION_PICK)
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         startActivityForResult(intent, Constants.REQUEST_CODE)
     }
@@ -138,12 +215,29 @@ class Profile : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == Constants.REQUEST_CODE) {
-            photo.setImageURI(data?.data)
+
+            imageUri = data?.data!!
+            photo.setImageURI(imageUri)
 
             taskMap["photo"] = data?.data.toString()
             reference.updateChildren(taskMap)
-
         }
     }
+
+    private fun uploadToStorage() {
+        //val randomKey = UUID.randomUUID().toString()
+        photoRef = storageRef.child("photos/profileImage")
+
+        photoRef.putFile(imageUri).addOnSuccessListener {
+            photo.setImageURI(null)
+            Toast.makeText(this, "Image has been successfully updated!", Toast.LENGTH_SHORT).show()
+            taskMap["photo"] = imageUri
+            reference.updateChildren(taskMap)
+            Glide.with(applicationContext)
+                .load(imageUri)
+                .into(photo)
+        }
+    }
+
 
 }

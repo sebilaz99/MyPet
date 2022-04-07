@@ -7,7 +7,7 @@ data class Medication(
     val type: String = ""
 )
 
-enum class MedicationType(name: String) {
-    AP("Anti-Parasitical"), FT("Flea&Tick"), O("Other")
+enum class MedicationType {
+    Internal, External, Other
 }
 

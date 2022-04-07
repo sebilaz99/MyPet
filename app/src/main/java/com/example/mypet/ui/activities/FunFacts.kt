@@ -3,12 +3,15 @@ package com.example.mypet.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.bumptech.glide.Glide
 import com.example.mypet.MainActivity
 import com.example.mypet.R
 import com.example.mypet.model.FactModel
+import com.example.mypet.model.RandomImageModel
 import com.example.mypet.network.Networking
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,6 +21,7 @@ import retrofit2.Response
 class FunFacts : AppCompatActivity() {
 
     lateinit var factTxt: TextView
+    lateinit var image: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +32,7 @@ class FunFacts : AppCompatActivity() {
         supportActionBar?.title = "Fun Facts"
 
         fetchRandomFact()
+        fetchRandomImage()
 
         constraint.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
@@ -50,6 +55,31 @@ class FunFacts : AppCompatActivity() {
             override fun onFailure(call: Call<FactModel>, t: Throwable?) {
                 factTxt = findViewById(R.id.factContentTV)
                 factTxt.text = "Fetching error"
+                if (t != null) {
+                    t.message?.let { Log.d("FACT", it) }
+                }
+            }
+        })
+    }
+
+
+    private fun fetchRandomImage() {
+        val call: Call<RandomImageModel> = Networking.imageInstance.getRandomImage()
+        call.enqueue(object : Callback<RandomImageModel> {
+            override fun onResponse(
+                call: Call<RandomImageModel>,
+                response: Response<RandomImageModel>
+            ) {
+                val url: String = response.body()!!.url
+                image = findViewById(R.id.randomIV)
+                Glide.with(this@FunFacts)
+                    .load(url)
+                    .placeholder(R.drawable.dog_api_placeholder)
+                    .into(image)
+
+            }
+
+            override fun onFailure(call: Call<RandomImageModel>, t: Throwable?) {
                 if (t != null) {
                     t.message?.let { Log.d("FACT", it) }
                 }

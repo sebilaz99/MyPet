@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.FunFacts">
 
+
+    <ImageView
+        android:id="@+id/randomIV"
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/factContentTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.93" />
+
     <TextView
         android:id="@+id/factContentTV"
         android:layout_width="match_parent"
@@ -17,9 +30,10 @@
         android:textStyle="italic|bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.581" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomConstraint"

@@ -1,6 +1,7 @@
 package com.example.mypet
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -14,9 +15,13 @@ import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.mypet.adapter.ExpiredAdapter
+import com.example.mypet.adapter.ServicesAdapter
+import com.example.mypet.adapter.SpacingDecorator
 import com.example.mypet.login.Login
 import com.example.mypet.model.ExpiredItem
+import com.example.mypet.model.ServiceItem
 import com.example.mypet.model.UserStatus
 import com.example.mypet.ui.activities.FunFacts
 import com.example.mypet.ui.activities.Medication
@@ -27,6 +32,10 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import de.hdodenhof.circleimageview.CircleImageView
+import java.io.File
 import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
@@ -40,7 +49,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var expList: ArrayList<ExpiredItem>
     var xpLong by Delegates.notNull<Long>()
     val taskMap: MutableMap<String, Any> = HashMap()
-
+    private lateinit var adapter: ServicesAdapter
+    private var list: ArrayList<ServiceItem>? = null
+    private lateinit var storageRef: StorageReference
+    private lateinit var storage: FirebaseStorage
+    private lateinit var photoRef: StorageReference
 
     lateinit var toggle: ActionBarDrawerToggle
 
@@ -66,6 +79,7 @@ class MainActivity : AppCompatActivity() {
 
         val xpTV = header.findViewById<TextView>(R.id.xpTextView)
         val nameTV = header.findViewById<TextView>(R.id.petNameTextView)
+        val image = header.findViewById<CircleImageView>(R.id.circleImageView)
 
         toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
         drawerLayout.addDrawerListener(toggle)
@@ -115,6 +129,13 @@ class MainActivity : AppCompatActivity() {
             petReference.updateChildren(taskMap)
         }
 
+        storageRef = FirebaseStorage.getInstance().reference.child("photos/profileImage")
+        val localFile = File.createTempFile("tempImage", ".jpg")
+        storageRef.getFile(localFile).addOnSuccessListener {
+            val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+            image.setImageBitmap(bitmap)
+        }
+
         petReference = FirebaseDatabase.getInstance().reference.child("Pet")
             .child(ownerId)
 
@@ -123,6 +144,11 @@ class MainActivity : AppCompatActivity() {
                 val name = snapshot.child("name").value
                 val score = snapshot.child("score").value
                 val photo = snapshot.child("photo").value
+
+                Glide.with(applicationContext)
+                    .load(photo)
+                    .placeholder(R.drawable.dog_placeholder)
+                    .into(image)
 
                 expReference.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -164,7 +190,6 @@ class MainActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
 
-
         })
 
 
@@ -205,6 +230,16 @@ class MainActivity : AppCompatActivity() {
         })
 
         xpLong = Integer.parseInt(xpTV.text.toString()).toLong()
+
+        val servicesRV = findViewById<RecyclerView>(R.id.servicesRV)
+        val spacingDecorator = SpacingDecorator(50)
+        list = ArrayList()
+        list = populateRV()
+
+        adapter = ServicesAdapter(list!!)
+        servicesRV.adapter = adapter
+        servicesRV.addItemDecoration(spacingDecorator)
+        servicesRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
     }
 
 
@@ -217,5 +252,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateXp(expired: Long, food: Long, extra: Long): Long {
         return expired * 40 + food * 20 + extra * 10
+    }
+
+    private fun populateRV(): ArrayList<ServiceItem> {
+
+        val list: ArrayList<ServiceItem> = ArrayList()
+
+        list.add(ServiceItem("Veterinary", R.drawable.vet))
+        list.add(ServiceItem("Parks", R.drawable.park))
+        list.add(ServiceItem("Pet Shops", R.drawable.pet_shop))
+        return list
     }
 }
