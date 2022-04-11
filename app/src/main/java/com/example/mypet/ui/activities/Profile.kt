@@ -54,6 +54,7 @@ class Profile : AppCompatActivity() {
         val breed = findViewById<TextView>(R.id.breedTV)
         val sex = findViewById<TextView>(R.id.genderTV)
         val dob = findViewById<AppCompatButton>(R.id.dobBtn)
+        val toyDog = findViewById<ImageView>(R.id.toyDogIV)
         val smallDog = findViewById<ImageView>(R.id.smallDogIV)
         val mediumDog = findViewById<ImageView>(R.id.mediumDogIV)
         val largeDog = findViewById<ImageView>(R.id.largeDogIV)
@@ -157,6 +158,14 @@ class Profile : AppCompatActivity() {
         profileReference = FirebaseDatabase.getInstance().reference.child("Pet")
             .child(ownerId).child("profile")
 
+
+        toyDog.setOnClickListener {
+            Toast.makeText(this, "size: toy", Toast.LENGTH_LONG).show()
+            val size = "toy"
+            val profileItem = ProfileItem(size)
+            profileReference.setValue(profileItem)
+        }
+
         smallDog.setOnClickListener {
             Toast.makeText(this, "size: small", Toast.LENGTH_LONG).show()
             val size = "small"
@@ -181,17 +190,26 @@ class Profile : AppCompatActivity() {
         profileReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 when (snapshot.child("size").value) {
+                    "toy" -> {
+                        toyDog.setImageResource(R.drawable.white_dog)
+                        smallDog.setImageResource(R.drawable.dog_size)
+                        mediumDog.setImageResource(R.drawable.dog_size)
+                        largeDog.setImageResource(R.drawable.dog_size)
+                    }
                     "small" -> {
+                        toyDog.setImageResource(R.drawable.dog_size)
                         smallDog.setImageResource(R.drawable.white_dog)
                         mediumDog.setImageResource(R.drawable.dog_size)
                         largeDog.setImageResource(R.drawable.dog_size)
                     }
                     "medium" -> {
+                        toyDog.setImageResource(R.drawable.dog_size)
                         mediumDog.setImageResource(R.drawable.white_dog)
                         smallDog.setImageResource(R.drawable.dog_size)
                         largeDog.setImageResource(R.drawable.dog_size)
                     }
                     "large" -> {
+                        toyDog.setImageResource(R.drawable.dog_size)
                         largeDog.setImageResource(R.drawable.white_dog)
                         smallDog.setImageResource(R.drawable.dog_size)
                         mediumDog.setImageResource(R.drawable.dog_size)
@@ -219,13 +237,12 @@ class Profile : AppCompatActivity() {
             imageUri = data?.data!!
             photo.setImageURI(imageUri)
 
-            taskMap["photo"] = data?.data.toString()
+            taskMap["photo"] = data.data.toString()
             reference.updateChildren(taskMap)
         }
     }
 
     private fun uploadToStorage() {
-        //val randomKey = UUID.randomUUID().toString()
         photoRef = storageRef.child("photos/profileImage")
 
         photoRef.putFile(imageUri).addOnSuccessListener {

@@ -10,25 +10,26 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mypet.R
-import com.example.mypet.model.ServiceItem
+import com.example.mypet.model.AppointmentItem
 
-class ServicesAdapter(private var list: ArrayList<ServiceItem>) : RecyclerView.Adapter<ServicesAdapter.ServicesViewHolder>() {
+class AppointmentsAdapter(private var list: ArrayList<AppointmentItem>) :
+    RecyclerView.Adapter<AppointmentsAdapter.AppointmentsViewHolder>() {
 
 
-    inner class ServicesViewHolder(itemView: View) :
+    inner class AppointmentsViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.serviceNameTV)
         val image: ImageView = itemView.findViewById(R.id.serviceImageIV)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServicesViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppointmentsViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.service_item, parent, false)
-        return ServicesViewHolder(view)
+        return AppointmentsViewHolder(view)
     }
 
     @SuppressLint("ResourceAsColor")
-    override fun onBindViewHolder(holder: ServicesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AppointmentsViewHolder, position: Int) {
         val current = list[position]
 
         holder.name.text = current.name

@@ -4,12 +4,8 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,8 +44,8 @@ class Vaccination : AppCompatActivity() {
         supportActionBar?.title = "Vaccines"
 
         val addBtn = findViewById<FloatingActionButton>(R.id.addVaxBtn)
-        val startDateBtn = findViewById<AppCompatButton>(R.id.dateBtn)
-        val endDateBtn = findViewById<AppCompatButton>(R.id.expBtn)
+        val startDateBtn = findViewById<Button>(R.id.dateBtn)
+        val endDateBtn = findViewById<Button>(R.id.expBtn)
         val typeACTV = findViewById<AutoCompleteTextView>(R.id.typeAutoCompleteTextView)
         val bottomConstraint = findViewById<ConstraintLayout>(R.id.bottomConstraint)
 
@@ -80,7 +76,7 @@ class Vaccination : AppCompatActivity() {
         val cMonth2 = calendar2.get(Calendar.MONTH)
         val cYear2 = Year.now().value
 
-        val datePicker = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+        val datePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, month)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -89,9 +85,10 @@ class Vaccination : AppCompatActivity() {
             val sdf = SimpleDateFormat(format, Locale.UK)
             val dateStr = sdf.format(calendar.time)
             startDateBtn.text = dateStr
+            startDateBtn.textSize = 8F
         }
 
-        val datePicker2 = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+        val datePicker2 = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             calendar2.set(Calendar.YEAR, year)
             calendar2.set(Calendar.MONTH, month)
             calendar2.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -100,6 +97,7 @@ class Vaccination : AppCompatActivity() {
             val sdf = SimpleDateFormat(format, Locale.UK)
             val dateStr = sdf.format(calendar2.time)
             endDateBtn.text = dateStr
+            endDateBtn.textSize = 8F
         }
 
 
@@ -108,46 +106,50 @@ class Vaccination : AppCompatActivity() {
             val brandStr = brand.text.toString().trim()
             val type = typeACTV.text.toString()
 
-            if (startDateBtn.text.toString() == "Administration Date") {
-                startDateBtn.text = "??-??-????"
-            }
-            if (endDateBtn.text.toString() == "Expiring Date") {
-                endDateBtn.text = "??-??-????"
-            }
-
-
-            val currentDate = LocalDate.now().toString()
-            val currentYear = currentDate.subSequence(0, 4).toString()
-            val currentMonth = currentDate.subSequence(5, 7).toString()
-            val currentDay = currentDate.subSequence(8, 10).toString()
-            val currentDateStringFormat = "$currentDay-$currentMonth-$currentYear"
-            val currentDateNewFormat =
-                SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(currentDateStringFormat)
-            val expDate =
-                SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(endDateBtn.text.toString())
-            val expDateString = endDateBtn.text.toString()
-
-            expReference = FirebaseDatabase.getInstance().reference.child("Pet")
-                .child(ownerId).child("expired")
-
-
-            if (currentDateNewFormat.before(expDate)) {
-                Log.d("VAX DATE", "NOT EXPIRED")
+            if (startDateBtn.text.toString() == "") {
+                Toast.makeText(this, "Choose the administration date!", Toast.LENGTH_LONG).show()
+            } else if (endDateBtn.text.toString() == "") {
+                Toast.makeText(this, "Choose the expiring date!", Toast.LENGTH_LONG).show()
             } else {
-                val item = ExpiredItem("Vaccine", type, expDateString)
-                expReference.push().setValue(item)
-                Log.d("VAX DATE", "EXPIRED")
+
+                val currentDate = LocalDate.now().toString()
+                val currentYear = currentDate.subSequence(0, 4).toString()
+                val currentMonth = currentDate.subSequence(5, 7).toString()
+                val currentDay = currentDate.subSequence(8, 10).toString()
+                val currentDateStringFormat = "$currentDay-$currentMonth-$currentYear"
+                val currentDateNewFormat =
+                    SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(currentDateStringFormat)
+                val expDate =
+                    SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(endDateBtn.text.toString())
+                val expDateString = endDateBtn.text.toString()
+
+                expReference = FirebaseDatabase.getInstance().reference.child("Pet")
+                    .child(ownerId).child("expired")
+
+
+                if (currentDateNewFormat.before(expDate)) {
+                    Log.d("VAX DATE", "NOT EXPIRED")
+                } else {
+                    val item = ExpiredItem("Vaccine", type, expDateString)
+                    expReference.push().setValue(item)
+                    Log.d("VAX DATE", "EXPIRED")
+                }
+
+
+                val vaccine =
+                    Vaccine(
+                        brandStr,
+                        startDateBtn.text.toString(),
+                        endDateBtn.text.toString(),
+                        type
+                    )
+
+                reference = FirebaseDatabase.getInstance().reference.child("Pet")
+                    .child(ownerId).child("vaccines")
+                reference.push().setValue(vaccine)
+                Toast.makeText(this, "New vaccine has been added!", Toast.LENGTH_SHORT).show()
+
             }
-
-
-            val vaccine =
-                Vaccine(brandStr, startDateBtn.text.toString(), endDateBtn.text.toString(), type)
-
-            reference = FirebaseDatabase.getInstance().reference.child("Pet")
-                .child(ownerId).child("vaccines")
-            reference.push().setValue(vaccine)
-            Toast.makeText(this, "New vaccine has been added!", Toast.LENGTH_SHORT).show()
-
         }
 
         startDateBtn.setOnClickListener {

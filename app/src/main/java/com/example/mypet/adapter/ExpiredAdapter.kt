@@ -34,9 +34,9 @@ class ExpiredAdapter(items: FirebaseRecyclerOptions<ExpiredItem>) :
 
         holder.itemView.setOnLongClickListener {
             Snackbar.make(it, "Are you sure you want to delete this?", Snackbar.LENGTH_LONG)
-                .setAction("YES", View.OnClickListener {
+                .setAction("YES") {
                     getRef(position).removeValue()
-                }).show()
+                }.show()
             true
         }
     }
