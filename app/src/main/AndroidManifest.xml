@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPet">
         <activity
+            android:name=".ui.activities.Appointment"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.Food"
             android:exported="false" />
         <activity

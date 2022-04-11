@@ -19,10 +19,13 @@
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/drawable/custom_progress_bar.xml" value="0.1" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/drawable/edittext_bg.xml" value="0.171" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/drawable/ic_arrow_down.xml" value="0.171" />
+        <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/drawable/ic_calendar.xml" value="0.105" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/drawable/ic_extra.xml" value="0.11" />
+        <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/drawable/ic_time.xml" value="0.105" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/drawable/item_selector.xml" value="0.171" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/drawable/rounded_rectangular.xml" value="0.1055" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/drawable/rounded_rectangular_reversed.xml" value="0.11" />
+        <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/activity_appointment.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/activity_food.xml" value="0.22" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/activity_fun_facts.xml" value="0.1" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/activity_login.xml" value="0.1796875" />
@@ -33,6 +36,7 @@
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/activity_splash_screen.xml" value="0.1796875" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/activity_vaccination.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/app_bar.xml" value="0.1796875" />
+        <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/appointment_item.xml" value="0.17889492753623187" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/category_item.xml" value="0.1796875" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/colors_dropdown_item.xml" value="0.1796875" />
         <entry key="..\:/Users/DaLazea/AndroidStudioProjects/MyPet/app/src/main/res/layout/edittext_bg.xml" value="0.1796875" />

@@ -106,48 +106,54 @@ class Medication : AppCompatActivity() {
             val type = typeACTV.text.toString()
 
 
-            if (startDateBtn.text.toString() == "") {
-                Toast.makeText(this, "Choose the administration date!", Toast.LENGTH_LONG).show()
-            } else if (endDateBtn.text.toString() == "") {
-                Toast.makeText(this, "Choose the expiring date!", Toast.LENGTH_LONG).show()
-            } else {
-
-                val currentDate = LocalDate.now().toString()
-                val currentYear = currentDate.subSequence(0, 4).toString()
-                val currentMonth = currentDate.subSequence(5, 7).toString()
-                val currentDay = currentDate.subSequence(8, 10).toString()
-                val currentDateStringFormat = "$currentDay-$currentMonth-$currentYear"
-                val currentDateNewFormat =
-                    SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(currentDateStringFormat)
-                val expDate =
-                    SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(endDateBtn.text.toString())
-                val expDateString = endDateBtn.text.toString()
-
-                expReference = FirebaseDatabase.getInstance().reference.child("Pet")
-                    .child(ownerId).child("expired")
-
-
-                if (currentDateNewFormat.before(expDate)) {
-                    Log.d("VAX DATE", "NOT EXPIRED")
-                } else {
-                    val item = ExpiredItem("Medication", type, expDateString)
-                    expReference.push().setValue(item)
-                    Log.d("VAX DATE", "EXPIRED")
+            when {
+                startDateBtn.text.toString() == "" -> {
+                    Toast.makeText(this, "Choose the administration date!", Toast.LENGTH_LONG)
+                        .show()
                 }
+                endDateBtn.text.toString() == "" -> {
+                    Toast.makeText(this, "Choose the expiring date!", Toast.LENGTH_LONG).show()
+                }
+                else -> {
+
+                    val currentDate = LocalDate.now().toString()
+                    val currentYear = currentDate.subSequence(0, 4).toString()
+                    val currentMonth = currentDate.subSequence(5, 7).toString()
+                    val currentDay = currentDate.subSequence(8, 10).toString()
+                    val currentDateStringFormat = "$currentDay-$currentMonth-$currentYear"
+                    val currentDateNewFormat =
+                        SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(currentDateStringFormat)
+                    val expDate =
+                        SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(endDateBtn.text.toString())
+                    val expDateString = endDateBtn.text.toString()
+
+                    expReference = FirebaseDatabase.getInstance().reference.child("Pet")
+                        .child(ownerId).child("expired")
 
 
-                val med =
-                    Medication(
-                        brandStr,
-                        startDateBtn.text.toString(),
-                        endDateBtn.text.toString(),
-                        type
-                    )
+                    if (currentDateNewFormat.before(expDate)) {
+                        Log.d("VAX DATE", "NOT EXPIRED")
+                    } else {
+                        val item = ExpiredItem("Medication", type, expDateString)
+                        expReference.push().setValue(item)
+                        Log.d("VAX DATE", "EXPIRED")
+                    }
 
-                reference = FirebaseDatabase.getInstance().reference.child("Pet")
-                    .child(ownerId).child("medication")
-                reference.push().setValue(med)
-                Toast.makeText(this, "New medication has been added!", Toast.LENGTH_SHORT).show()
+
+                    val med =
+                        Medication(
+                            brandStr,
+                            startDateBtn.text.toString(),
+                            endDateBtn.text.toString(),
+                            type
+                        )
+
+                    reference = FirebaseDatabase.getInstance().reference.child("Pet")
+                        .child(ownerId).child("medication")
+                    reference.push().setValue(med)
+                    Toast.makeText(this, "New medication has been added!", Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
 
