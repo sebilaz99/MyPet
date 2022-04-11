@@ -37,6 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import java.io.File
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var reference: DatabaseReference
     private lateinit var petReference: DatabaseReference
     private lateinit var expReference: DatabaseReference
-    private lateinit var foodReference: DatabaseReference
+    private lateinit var appReference: DatabaseReference
     private var ownerId = ""
     private lateinit var expList: ArrayList<ExpiredItem>
     var xpLong by Delegates.notNull<Long>()
@@ -58,6 +59,7 @@ class MainActivity : AppCompatActivity() {
     private var list: ArrayList<ServiceItem>? = null
     private var appList: ArrayList<AppointmentItem>? = null
     private lateinit var storageRef: StorageReference
+    private var dateList: ArrayList<String>? = null
 
     private lateinit var toggle: ActionBarDrawerToggle
 
@@ -85,6 +87,10 @@ class MainActivity : AppCompatActivity() {
         val nameTV = header.findViewById<TextView>(R.id.petNameTextView)
         val image = header.findViewById<CircleImageView>(R.id.circleImageView)
         val nameTextView = findViewById<TextView>(R.id.nameTextView)
+        val upcomingTV = findViewById<TextView>(R.id.upcomingTV)
+        val nrOfDaysTV = findViewById<TextView>(R.id.daysTV)
+        val typeTV = findViewById<TextView>(R.id.typeTV)
+        val upcomingConstraint = findViewById<ConstraintLayout>(R.id.constraintLayout2)
 
         toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
         drawerLayout.addDrawerListener(toggle)
@@ -166,12 +172,54 @@ class MainActivity : AppCompatActivity() {
         })
 
 
+        appReference = FirebaseDatabase.getInstance().reference.child("Pet")
+            .child(ownerId).child("appointments")
+
+        appReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                dateList = ArrayList()
+                val upcomingValSnap = snapshot.childrenCount
+
+                if (snapshot.exists()) {
+                    for (elem in snapshot.children) {
+                        val date = elem.child("date").value.toString()
+                        dateList!!.add(date)
+                    }
+
+                    val sortedDateList = dateList!!.sortedBy {
+                        LocalDate.parse(it, DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+                    }
+
+                    val timestampDate =
+                        SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(sortedDateList[0])
+                    val diffInMillis: Long = timestampDate.time - currentDateNewFormat.time
+                    val diffInDays = TimeUnit.MILLISECONDS.toDays(diffInMillis)
+
+                    nrOfDaysTV.text = diffInDays.toString()
+                } else {
+                    typeTV.text = "no"
+                    nrOfDaysTV.text = ""
+
+                    val txt1 = findViewById<TextView>(R.id.textView8)
+                    val txt2 = findViewById<TextView>(R.id.textView9)
+                    txt1.text = "appointments"
+                    txt2.text = ""
+                }
+                upcomingTV.text = upcomingValSnap.toString()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
         val updateBtn = findViewById<ImageView>(R.id.updateScoreIV)
 
         updateBtn.setOnClickListener {
             taskMap["score"] = xpTV.text.toString()
             petReference.updateChildren(taskMap)
         }
+
 
         storageRef = FirebaseStorage.getInstance().reference.child("photos/profileImage")
         val localFile = File.createTempFile("tempImage", ".jpg")
@@ -187,59 +235,60 @@ class MainActivity : AppCompatActivity() {
         expReference = FirebaseDatabase.getInstance().reference.child("Pet")
             .child(ownerId).child("expired")
 
-        petReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val name = snapshot.child("name").value
-                val score = snapshot.child("score").value
-                val photo = snapshot.child("photo").value
+        petReference.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val name = snapshot.child("name").value
+                    val score = snapshot.child("score").value
+                    val photo = snapshot.child("photo").value
 
-                Glide.with(applicationContext)
-                    .load(photo)
-                    .placeholder(R.drawable.dog_placeholder)
-                    .into(image)
+                    Glide.with(applicationContext)
+                        .load(photo)
+                        .placeholder(R.drawable.dog_placeholder)
+                        .into(image)
 
-                expReference.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val nrOfElems = snapshot.childrenCount
-                        Log.d("FRB", nrOfElems.toString())
-                        val sum = updateXp(nrOfElems, 0, 0)
-                        Log.d("SUM", sum.toString())
-                        xpTV.text = (xpLong - sum).toString()
+                    expReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val nrOfElems = snapshot.childrenCount
+                            Log.d("FRB", nrOfElems.toString())
+                            val sum = updateXp(nrOfElems, 0, 0)
+                            Log.d("SUM", sum.toString())
+                            xpTV.text = (xpLong - sum).toString()
 
-                        when {
+                            when {
 
-                            score.toString().toInt() in 75..100 -> {
-                                xpTV.setTextColor(resources.getColor(R.color.medium_green))
+                                score.toString().toInt() in 75..100 -> {
+                                    xpTV.setTextColor(resources.getColor(R.color.medium_green))
+                                }
+                                score.toString().toInt() in 31..74 -> {
+                                    xpTV.setTextColor(resources.getColor(R.color.yellow))
+                                }
+                                score.toString().toInt() in 0..30 -> {
+                                    xpTV.setTextColor(resources.getColor(R.color.red))
+                                }
                             }
-                            score.toString().toInt() in 31..74 -> {
-                                xpTV.setTextColor(resources.getColor(R.color.yellow))
-                            }
-                            score.toString().toInt() in 0..30 -> {
-                                xpTV.setTextColor(resources.getColor(R.color.red))
-                            }
+
+                            progressBar.progress = score.toString().toInt()
+                            progressBar.max = 100
+
                         }
 
-                        progressBar.progress = score.toString().toInt()
-                        progressBar.max = 100
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
 
-                    }
+                    })
 
-                    override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
-                    }
+                    nameTV.text = name.toString()
+                    nameTextView.text = name.toString()
 
-                })
+                }
 
-                nameTV.text = name.toString()
-                nameTextView.text = name.toString()
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
 
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
+            })
 
 
         val options = FirebaseRecyclerOptions.Builder<ExpiredItem>()
@@ -255,27 +304,27 @@ class MainActivity : AppCompatActivity() {
         rv.addItemDecoration(spacingDecorator2)
         rv.setHasFixedSize(true)
 
-        expReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    for (elem in snapshot.children) {
-                        val name = elem.child("name").value.toString()
-                        val type = elem.child("type").value.toString()
-                        val date = elem.child("date").value.toString()
-                        val item = ExpiredItem(name, type, date)
-                        expList.add(item)
+        expReference.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for (elem in snapshot.children) {
+                            val name = elem.child("name").value.toString()
+                            val type = elem.child("type").value.toString()
+                            val date = elem.child("date").value.toString()
+                            val item = ExpiredItem(name, type, date)
+                            expList.add(item)
+                        }
+
+                        rv.adapter = ExpiredAdapter(options)
                     }
 
-                    rv.adapter = ExpiredAdapter(options)
                 }
 
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
 
         val score = intent.getLongExtra("score", 0)
         Log.d("GETSCORE", score.toString())
@@ -305,6 +354,12 @@ class MainActivity : AppCompatActivity() {
         appointmentsRV.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+
+        upcomingConstraint.setOnClickListener {
+            val intent = Intent(this, Appointment::class.java)
+            intent.putExtra("type", " ")
+            startActivity(intent)
+        }
     }
 
 
