@@ -188,44 +188,63 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:layout_constraintVertical_bias="0.216" />
 
+    8
+
     <ImageView
         android:id="@+id/smallDogIV"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="10dp"
         android:src="@drawable/dog_size"
-        android:translationY="-155dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomConstraint"
+        android:translationX="1dp"
+        android:translationY="-169dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.381"
+        app:layout_constraintHorizontal_bias="0.397"
         app:layout_constraintStart_toEndOf="@+id/textView6"
         app:layout_constraintTop_toBottomOf="@+id/dobBtn"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.216" />
+
+    <ImageView
+        android:id="@+id/toyDogIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/dog_size"
+        android:translationY="-145dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomConstraint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.259"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/dobBtn"
+        app:layout_constraintVertical_bias="0.303" />
 
     <ImageView
         android:id="@+id/mediumDogIV"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="10dp"
         android:src="@drawable/dog_size"
-        android:translationY="-160dp"
+        android:translationY="-158dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomConstraint"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.154"
+        app:layout_constraintHorizontal_bias="0.087"
         app:layout_constraintStart_toEndOf="@+id/smallDogIV"
         app:layout_constraintTop_toBottomOf="@+id/dobBtn"
-        app:layout_constraintVertical_bias="0.247" />
+        app:layout_constraintVertical_bias="0.468" />
 
     <ImageView
         android:id="@+id/largeDogIV"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         android:src="@drawable/dog_size"
         android:translationY="-160dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomConstraint"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.206"
+        app:layout_constraintHorizontal_bias="0.23"
         app:layout_constraintStart_toEndOf="@+id/mediumDogIV"
         app:layout_constraintTop_toBottomOf="@+id/dobBtn"
-        app:layout_constraintVertical_bias="0.41" />
+        app:layout_constraintVertical_bias="0.531" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/saveButton"
@@ -246,7 +265,7 @@
         android:id="@+id/bottomConstraint"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/light_green"
+        android:background="@color/medium_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

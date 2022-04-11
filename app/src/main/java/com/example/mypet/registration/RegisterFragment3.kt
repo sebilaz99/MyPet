@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase
 
 class RegisterFragment3 : Fragment(R.layout.fragment_register3) {
 
-    val args: RegisterFragment3Args by navArgs()
+    private val args: RegisterFragment3Args by navArgs()
 
     private lateinit var auth: FirebaseAuth
     private lateinit var reference: DatabaseReference
@@ -41,7 +41,6 @@ class RegisterFragment3 : Fragment(R.layout.fragment_register3) {
 
         val name = args.name
         val breed = args.breed
-        val species = args.species
         val sex = args.sex
         val color = args.colour
         val dob = args.dob
@@ -51,7 +50,7 @@ class RegisterFragment3 : Fragment(R.layout.fragment_register3) {
 
         goToReg2Btn.setOnClickListener {
             val action =
-                RegisterFragment3Directions.actionRegisterFragment3ToRegisterFragment2("", "", "")
+                RegisterFragment3Directions.actionRegisterFragment3ToRegisterFragment2("", "")
             view.findNavController().navigate(action)
         }
 
@@ -91,7 +90,6 @@ class RegisterFragment3 : Fragment(R.layout.fragment_register3) {
                                 name,
                                 sex,
                                 dob,
-                                species,
                                 breed,
                                 color,
                                 "",

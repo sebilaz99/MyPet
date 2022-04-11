@@ -16,17 +16,16 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.mypet.adapter.AppointmentsAdapter
 import com.example.mypet.adapter.ExpiredAdapter
 import com.example.mypet.adapter.ServicesAdapter
 import com.example.mypet.adapter.SpacingDecorator
 import com.example.mypet.login.Login
+import com.example.mypet.model.AppointmentItem
 import com.example.mypet.model.ExpiredItem
 import com.example.mypet.model.ServiceItem
 import com.example.mypet.model.UserStatus
-import com.example.mypet.ui.activities.FunFacts
-import com.example.mypet.ui.activities.Medication
-import com.example.mypet.ui.activities.Profile
-import com.example.mypet.ui.activities.Vaccination
+import com.example.mypet.ui.activities.*
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -36,6 +35,10 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.File
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
@@ -45,17 +48,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var reference: DatabaseReference
     private lateinit var petReference: DatabaseReference
     private lateinit var expReference: DatabaseReference
+    private lateinit var foodReference: DatabaseReference
     private var ownerId = ""
     private lateinit var expList: ArrayList<ExpiredItem>
     var xpLong by Delegates.notNull<Long>()
-    val taskMap: MutableMap<String, Any> = HashMap()
+    private val taskMap: MutableMap<String, Any> = HashMap()
     private lateinit var adapter: ServicesAdapter
+    private lateinit var appAdapter: AppointmentsAdapter
     private var list: ArrayList<ServiceItem>? = null
+    private var appList: ArrayList<AppointmentItem>? = null
     private lateinit var storageRef: StorageReference
-    private lateinit var storage: FirebaseStorage
-    private lateinit var photoRef: StorageReference
 
-    lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         val xpTV = header.findViewById<TextView>(R.id.xpTextView)
         val nameTV = header.findViewById<TextView>(R.id.petNameTextView)
         val image = header.findViewById<CircleImageView>(R.id.circleImageView)
+        val nameTextView = findViewById<TextView>(R.id.nameTextView)
 
         toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
         drawerLayout.addDrawerListener(toggle)
@@ -114,6 +119,10 @@ class MainActivity : AppCompatActivity() {
                     startActivity(Intent(this, Medication::class.java))
                     Log.d("Nav", "Medication")
                 }
+                R.id.foodItem -> {
+                    startActivity(Intent(this, Food::class.java))
+                    Log.d("Nav", "Food")
+                }
             }
             true
         }
@@ -121,6 +130,41 @@ class MainActivity : AppCompatActivity() {
         constraint.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
+
+
+        val currentDate = LocalDate.now().toString()
+        val currentYear = currentDate.subSequence(0, 4).toString()
+        val currentMonth = currentDate.subSequence(5, 7).toString()
+        val currentDay = currentDate.subSequence(8, 10).toString()
+        val currentDateStringFormat = "$currentDay-$currentMonth-$currentYear"
+        val currentDateNewFormat =
+            SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(currentDateStringFormat)
+
+        reference = FirebaseDatabase.getInstance().reference.child("Pet")
+            .child(ownerId).child("food")
+
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val timestampSnap = snapshot.child("timestamp").value
+
+                val timestampDate =
+                    SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(timestampSnap.toString())
+                val diffInMillis: Long = currentDateNewFormat.time - timestampDate.time
+                val diffInDays = TimeUnit.MILLISECONDS.toDays(diffInMillis)
+
+                if (diffInDays > 1) {
+                    val scoreToSubtract = diffInDays - 1
+                    val sum = updateXp(0, scoreToSubtract, 0)
+                    Log.d("SUM", sum.toString())
+                    xpTV.text = (xpLong - sum).toString()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+
 
         val updateBtn = findViewById<ImageView>(R.id.updateScoreIV)
 
@@ -138,6 +182,10 @@ class MainActivity : AppCompatActivity() {
 
         petReference = FirebaseDatabase.getInstance().reference.child("Pet")
             .child(ownerId)
+
+
+        expReference = FirebaseDatabase.getInstance().reference.child("Pet")
+            .child(ownerId).child("expired")
 
         petReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -183,6 +231,7 @@ class MainActivity : AppCompatActivity() {
                 })
 
                 nameTV.text = name.toString()
+                nameTextView.text = name.toString()
 
             }
 
@@ -193,9 +242,6 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-        expReference = FirebaseDatabase.getInstance().reference.child("Pet")
-            .child(ownerId).child("expired")
-
         val options = FirebaseRecyclerOptions.Builder<ExpiredItem>()
             .setQuery(expReference, ExpiredItem::class.java)
             .setLifecycleOwner(this)
@@ -203,8 +249,10 @@ class MainActivity : AppCompatActivity() {
 
         expList = arrayListOf()
 
+        val spacingDecorator2 = SpacingDecorator(0, 10)
         val rv = findViewById<RecyclerView>(R.id.expiredRV)
         rv.layoutManager = LinearLayoutManager(this)
+        rv.addItemDecoration(spacingDecorator2)
         rv.setHasFixedSize(true)
 
         expReference.addValueEventListener(object : ValueEventListener {
@@ -229,17 +277,34 @@ class MainActivity : AppCompatActivity() {
 
         })
 
+        val score = intent.getLongExtra("score", 0)
+        Log.d("GETSCORE", score.toString())
+
+
         xpLong = Integer.parseInt(xpTV.text.toString()).toLong()
 
         val servicesRV = findViewById<RecyclerView>(R.id.servicesRV)
-        val spacingDecorator = SpacingDecorator(50)
+        val appointmentsRV = findViewById<RecyclerView>(R.id.appointmentsRV)
+        val spacingDecorator = SpacingDecorator(50, 0)
+
+
         list = ArrayList()
         list = populateRV()
+
+        appList = ArrayList()
+        appList = populateAppRV()
 
         adapter = ServicesAdapter(list!!)
         servicesRV.adapter = adapter
         servicesRV.addItemDecoration(spacingDecorator)
         servicesRV.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        appAdapter = AppointmentsAdapter(appList!!)
+        appointmentsRV.adapter = appAdapter
+        appointmentsRV.addItemDecoration(spacingDecorator)
+        appointmentsRV.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
     }
 
 
@@ -251,7 +316,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateXp(expired: Long, food: Long, extra: Long): Long {
-        return expired * 40 + food * 20 + extra * 10
+        return expired * 40 + food * 10 + extra * 5
     }
 
     private fun populateRV(): ArrayList<ServiceItem> {
@@ -261,6 +326,15 @@ class MainActivity : AppCompatActivity() {
         list.add(ServiceItem("Veterinary", R.drawable.vet))
         list.add(ServiceItem("Parks", R.drawable.park))
         list.add(ServiceItem("Pet Shops", R.drawable.pet_shop))
+        return list
+    }
+
+    private fun populateAppRV(): ArrayList<AppointmentItem> {
+
+        val list: ArrayList<AppointmentItem> = ArrayList()
+
+        list.add(AppointmentItem("Veterinary", R.drawable.pablo_veterinary))
+        list.add(AppointmentItem("Grooming", R.drawable.pablo_groomer))
         return list
     }
 }

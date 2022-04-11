@@ -21,13 +21,12 @@ import java.util.*
 class RegisterFragment2 : Fragment(R.layout.fragment_register2) {
 
     lateinit var adapter: ArrayAdapter<Pair<String, Int>>
-    lateinit var adapter2: ArrayAdapter<String>
+    private lateinit var adapter2: ArrayAdapter<String>
 
-    lateinit var petName: String
-    lateinit var petBreed: String
-    lateinit var petSpecies: String
+    private lateinit var petName: String
+    private lateinit var petBreed: String
 
-    val args: RegisterFragment2Args by navArgs()
+    private val args: RegisterFragment2Args by navArgs()
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,7 +67,6 @@ class RegisterFragment2 : Fragment(R.layout.fragment_register2) {
 
         petName = args.name
         petBreed = args.breed
-        petSpecies = args.species
 
         val calendar = Calendar.getInstance()
 
@@ -76,7 +74,7 @@ class RegisterFragment2 : Fragment(R.layout.fragment_register2) {
         val cMonth = calendar.get(Calendar.MONTH)
         val cYear = Year.now().value
 
-        val datePicker = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+        val datePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, month)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -107,8 +105,7 @@ class RegisterFragment2 : Fragment(R.layout.fragment_register2) {
                 color,
                 sex,
                 petName,
-                petBreed,
-                petSpecies
+                petBreed
             )
             view.findNavController().navigate(action)
         }
