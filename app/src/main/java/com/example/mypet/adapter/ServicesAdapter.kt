@@ -1,6 +1,7 @@
 package com.example.mypet.adapter
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mypet.R
 import com.example.mypet.model.ServiceItem
+import com.example.mypet.ui.activities.Map
 
-class ServicesAdapter(private var list: ArrayList<ServiceItem>) : RecyclerView.Adapter<ServicesAdapter.ServicesViewHolder>() {
+class ServicesAdapter(private var list: ArrayList<ServiceItem>) :
+    RecyclerView.Adapter<ServicesAdapter.ServicesViewHolder>() {
 
 
     inner class ServicesViewHolder(itemView: View) :
@@ -36,8 +39,15 @@ class ServicesAdapter(private var list: ArrayList<ServiceItem>) : RecyclerView.A
             .load(current.image)
             .into(holder.image)
 
-        holder.itemView.setOnClickListener {
+        holder.itemView.setOnLongClickListener {
             Toast.makeText(it.context, holder.name.text.toString(), Toast.LENGTH_SHORT).show()
+            true
+        }
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(it.context, Map::class.java)
+            intent.putExtra("type", current.name)
+            it.context.startActivity(intent)
         }
     }
 

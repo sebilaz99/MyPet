@@ -21,53 +21,42 @@
         android:checkableBehavior="none">
 
         <item
-            android:id="@+id/vaccinesItem"
+            android:id="@+id/factsItem"
             android:enabled="true"
-            android:icon="@drawable/ic_medicine"
+            android:icon="@drawable/ic_star"
             android:iconTint="@color/black"
-            android:title="Vaccines" />
+            android:title="Fun Facts" />
 
         <item
-            android:id="@+id/medicationItem"
+            android:id="@+id/settingsItem"
             android:enabled="true"
-            android:icon="@drawable/ic_vaccine"
+            android:icon="@drawable/ic_settings"
             android:iconTint="@color/black"
-            android:title="Medication" />
+            android:title="Settings" />
 
-        <item
-            android:id="@+id/foodItem"
-            android:enabled="true"
-            android:icon="@drawable/ic_food"
-            android:iconTint="@color/black"
-            android:title="Food" />
-
-        <item
-            android:id="@+id/extraItem"
-            android:enabled="true"
-            android:icon="@drawable/ic_extra"
-            android:iconTint="@color/black"
-            android:title="Extra" />
     </group>
 
-    <item
-        android:id="@+id/factsItem"
-        android:enabled="true"
-        android:icon="@drawable/ic_star"
-        android:iconTint="@color/black"
-        android:title="Fun Facts" />
+    <group>
 
-    <item
-        android:id="@+id/settingsItem"
-        android:enabled="true"
-        android:icon="@drawable/ic_settings"
-        android:iconTint="@color/black"
-        android:title="Settings" />
+        <item
+            android:id="@+id/updateItem"
+            android:enabled="true"
+            android:icon="@drawable/ic_refresh"
+            android:iconTint="@color/black"
+            android:title="Update XP" />
 
-    <item
-        android:id="@+id/signOutItem"
-        android:enabled="true"
-        android:icon="@drawable/ic_signout"
-        android:iconTint="@color/black"
-        android:title="Sign Out" />
+    </group>
+
+    <group>
+
+        <item
+            android:id="@+id/signOutItem"
+            android:enabled="true"
+            android:icon="@drawable/ic_signout"
+            android:iconTint="@color/black"
+            android:title="Sign Out" />
+
+    </group>
+
 
 </menu>

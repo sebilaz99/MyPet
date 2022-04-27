@@ -11,11 +11,11 @@ import com.example.mypet.R
 import com.example.mypet.model.Vaccine
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.snackbar.Snackbar
 
 
 class VaccinesAdapter(items: FirebaseRecyclerOptions<Vaccine>) :
     FirebaseRecyclerAdapter<Vaccine, VaccinesAdapter.VaccineViewHolder>(items) {
-
 
     inner class VaccineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val brand: TextView = itemView.findViewById(R.id.brandTV)
@@ -42,9 +42,11 @@ class VaccinesAdapter(items: FirebaseRecyclerOptions<Vaccine>) :
         }
 
         holder.deleteBtn.setOnClickListener {
-            getRef(position).removeValue()
+            Snackbar.make(it, "Are you sure you want to delete this?", Snackbar.LENGTH_LONG)
+                .setAction("YES") {
+                    getRef(position).removeValue()
+                }.show()
             Toast.makeText(it.context, "Vaccine has been deleted!", Toast.LENGTH_SHORT).show()
         }
     }
-
 }

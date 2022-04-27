@@ -2,6 +2,7 @@ package com.example.mypet.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,7 +15,9 @@ import com.example.mypet.R
 import com.example.mypet.model.FoodItem
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.util.*
 
 class Food : AppCompatActivity() {
 
@@ -23,6 +26,8 @@ class Food : AppCompatActivity() {
     private lateinit var reference: DatabaseReference
     private lateinit var petReference: DatabaseReference
     private lateinit var profileReference: DatabaseReference
+    private lateinit var calculatorReference: DatabaseReference
+    private val taskMap: MutableMap<String, Any> = HashMap()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,7 +106,7 @@ class Food : AppCompatActivity() {
 
                 if (timestampSnap.toString() == currentDateStringFormat) {
                     bowl.setImageResource(R.drawable.dog_food_checked)
-                    txt.text = "Your dog is fed!"
+                    txt.text = "Your dog is fed"
                 }
             }
 
@@ -109,6 +114,9 @@ class Food : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         })
+
+        calculatorReference = FirebaseDatabase.getInstance().reference.child("Pet")
+            .child(ownerId).child("calculator")
 
         feedConstraint.setOnClickListener {
 
@@ -120,12 +128,21 @@ class Food : AppCompatActivity() {
                     val timestampSnap = snapshot.child("timestamp").value
 
                     when (timestampSnap.toString()) {
-                        currentDateStringFormat -> Toast.makeText(
-                            this@Food,
-                            "You already fed your pet today!",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        currentDateStringFormat -> {
+                            Toast.makeText(
+                                this@Food,
+                                "You already fed your pet today",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            Log.d("FOOD", "Already fed today")
+                        }
+
+                        else -> {
+                            calculatorReference.child("food").child(SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format(Date())).setValue("fed")
+                            Log.d("FOOD", "First time fed today")
+                        }
                     }
+
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -134,6 +151,7 @@ class Food : AppCompatActivity() {
             })
 
             bowl.setImageResource(R.drawable.dog_food_checked)
+
         }
 
 

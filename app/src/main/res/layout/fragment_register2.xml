@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/gradient_bg_main"
     tools:context=".registration.RegisterFragment2">
 
     <androidx.appcompat.widget.AppCompatButton
@@ -38,9 +38,10 @@
         android:id="@+id/chooseBdayButton"
         android:layout_width="300dp"
         android:layout_height="60dp"
-        android:background="@drawable/edittext_bg"
+        android:background="@drawable/edittext_bg_gradient"
         android:text="Choose pet's birthday"
         android:textAlignment="center"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
@@ -53,7 +54,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/edittext_bg"
+        android:background="@drawable/edittext_bg_gradient"
         android:translationY="-120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,6 +68,7 @@
             android:layout_weight="1"
             android:inputType="none"
             android:text="Colour"
+            android:textStyle="bold"
             tools:layout_editor_absoluteX="38dp"
             tools:layout_editor_absoluteY="540dp" />
 
@@ -104,14 +106,17 @@
             android:id="@+id/mRadioButton"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/edittext_bg"
-            android:text="M" />
+            android:background="@drawable/edittext_bg_gradient"
+            android:text="M"
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/fRadioButton"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="F" />
+            android:background="@drawable/edittext_bg_gradient"
+            android:text="F"
+            android:textStyle="bold" />
 
     </RadioGroup>
 

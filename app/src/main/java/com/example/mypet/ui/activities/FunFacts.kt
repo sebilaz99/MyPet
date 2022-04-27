@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.mypet.MainActivity
 import com.example.mypet.R
@@ -26,6 +27,8 @@ class FunFacts : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fun_facts)
+
+        window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.medium_green)
 
         val constraint = findViewById<ConstraintLayout>(R.id.bottomConstraint)
 

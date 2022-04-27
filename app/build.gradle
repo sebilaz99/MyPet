@@ -122,4 +122,7 @@ dependencies {
 
     // FirebaseUI for Cloud Storage
     implementation 'com.firebaseui:firebase-ui-storage:8.0.1'
+
+    implementation "com.mapbox.navigation:android:2.2.2"
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-core:5.0.1'
 }

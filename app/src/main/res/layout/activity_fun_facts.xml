@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_bg_main"
     tools:context=".ui.activities.FunFacts">
 
 
@@ -39,7 +40,7 @@
         android:id="@+id/bottomConstraint"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/medium_green"
+        android:background="@color/fui_transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -50,7 +51,8 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_home"
+            android:background="@drawable/circle_blue"
+            android:src="@drawable/home"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

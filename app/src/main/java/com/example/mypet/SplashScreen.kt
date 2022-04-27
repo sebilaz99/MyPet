@@ -4,32 +4,24 @@ import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.airbnb.lottie.LottieAnimationView
 import com.example.mypet.login.Login
-import com.example.mypet.model.UserStatus
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
 
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreen : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
-    private lateinit var reference: DatabaseReference
-    private lateinit var ownerId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        supportActionBar?.hide()
 
-        auth = FirebaseAuth.getInstance()
-
-        ownerId = auth.currentUser!!.uid
-
-        reference = FirebaseDatabase.getInstance().reference.child("Pet")
-            .child(ownerId).child("owner")
+        window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.light_green)
 
         supportActionBar?.hide()
 
@@ -42,29 +34,10 @@ class SplashScreen : AppCompatActivity() {
             }
 
             override fun onAnimationEnd(animation: Animator?) {
-                reference.addValueEventListener(object :
-                    ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        when (dataSnapshot.child("status").value) {
-                            UserStatus.ONLINE.toString() -> startActivity(
-                                Intent(
-                                    applicationContext,
-                                    MainActivity::class.java
-                                )
-                            )
-                            UserStatus.OFFLINE.toString() -> startActivity(
-                                Intent(
-                                    applicationContext,
-                                    Login::class.java
-                                )
-                            )
-                        }
-                    }
-
-                    override fun onCancelled(databaseError: DatabaseError) {
-                        Log.d("snapshot: ", databaseError.code.toString())
-                    }
-                })
+                startActivity(
+                    Intent(
+                        applicationContext,
+                        Login::class.java))
             }
 
             override fun onAnimationCancel(animation: Animator?) {
