@@ -5,7 +5,7 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -21,6 +21,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.Year
 import java.util.*
 
@@ -45,16 +46,27 @@ class Appointment : AppCompatActivity() {
         supportActionBar?.title = appointmentType
 
         val bottomConstraint = findViewById<ConstraintLayout>(R.id.bottomConstraint)
-        val dateBtn = findViewById<Button>(R.id.dateBtn)
-        val timeBtn = findViewById<Button>(R.id.timeBtn)
+        val dateBtn = findViewById<ConstraintLayout>(R.id.dateBtn)
+        val timeBtn = findViewById<ConstraintLayout>(R.id.timeBtn)
+        val dateTV = findViewById<TextView>(R.id.dateTV)
+        val timeTV = findViewById<TextView>(R.id.timeTV)
         val addBtn = findViewById<AppCompatButton>(R.id.addAppointmentBtn)
         appRV = findViewById(R.id.appointmentRV)
+
+
+        val currentDate = LocalDate.now().toString()
+        val currentYear = currentDate.subSequence(0, 4).toString()
+        val currentMonth = currentDate.subSequence(5, 7).toString()
+        val currentDay = currentDate.subSequence(8, 10).toString()
+        val currentDateStringFormat = "$currentDay-$currentMonth-$currentYear"
+        val currentDateNewFormat =
+            SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(currentDateStringFormat)
+
 
         auth = FirebaseAuth.getInstance()
         ownerId = auth.currentUser!!.uid
         appReference = FirebaseDatabase.getInstance().reference.child("Pet")
             .child(ownerId).child("appointments")
-
 
         val calendar = Calendar.getInstance()
         val cDay = calendar.get(Calendar.DAY_OF_MONTH)
@@ -72,8 +84,8 @@ class Appointment : AppCompatActivity() {
             val format = "dd-MM-yyyy"
             val sdf = SimpleDateFormat(format, Locale.UK)
             val dateStr = sdf.format(calendar.time)
-            dateBtn.text = dateStr
-            dateBtn.textSize = 10F
+            dateTV.text = dateStr
+            //dateBtn.textSize = 10F
         }
 
         val timePicker = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
@@ -83,10 +95,9 @@ class Appointment : AppCompatActivity() {
             val format = "HH:MM"
             val sdf = SimpleDateFormat(format, Locale.UK)
             val hourStr = sdf.format(calendar.time)
-            timeBtn.text = hourStr
-            timeBtn.textSize = 10F
+            timeTV.text = hourStr
+            //timeBtn.textSize = 10F
         }
-
 
         timeBtn.setOnClickListener {
             TimePickerDialog(it.context, timePicker, cHour, cMinute, true).show()
@@ -96,11 +107,27 @@ class Appointment : AppCompatActivity() {
             DatePickerDialog(it.context, datePicker, cYear, cMonth, cDay).show()
         }
 
+
         addBtn.setOnClickListener {
             val appointment =
-                AppointmentModel(appType!!, dateBtn.text.toString(), timeBtn.text.toString())
-            appReference.push().setValue(appointment)
-            Toast.makeText(this, "New appointment has been added!", Toast.LENGTH_SHORT).show()
+                AppointmentModel(appType!!, dateTV.text.toString(), timeTV.text.toString())
+
+            if (currentDateNewFormat.before(
+                    SimpleDateFormat(
+                        "dd-MM-yyyy",
+                        Locale.UK
+                    ).parse(dateTV.text.toString())
+                )
+            ) {
+                appReference.push().setValue(appointment)
+                Toast.makeText(this, "New appointment has been added!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(
+                    this,
+                    "You cannot make an appointment in the past!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         bottomConstraint.setOnClickListener {
@@ -133,7 +160,6 @@ class Appointment : AppCompatActivity() {
 
                     appRV.adapter = AppointmentAdapter(options)
                 }
-
             }
 
             override fun onCancelled(error: DatabaseError) {

@@ -11,11 +11,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/paw"
+        android:icon="@drawable/mypet_logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/paw"
+        android:roundIcon="@drawable/mypet_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPet">
+        <activity
+            android:name=".ui.activities.Map"
+            android:exported="false" />
         <activity
             android:name=".ui.activities.Appointment"
             android:exported="false" />
@@ -36,15 +39,17 @@
             android:exported="false" />
         <activity
             android:name=".SplashScreen"
-            android:exported="true" />
-        <activity
-            android:name=".login.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".login.Login"
+            android:exported="true">
+
         </activity>
         <activity
             android:name=".registration.Register"

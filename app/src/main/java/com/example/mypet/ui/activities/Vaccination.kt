@@ -31,6 +31,7 @@ class Vaccination : AppCompatActivity() {
     private lateinit var ownerId: String
     private lateinit var reference: DatabaseReference
     private lateinit var expReference: DatabaseReference
+    private lateinit var calculatorReference: DatabaseReference
     private lateinit var rv: RecyclerView
     private lateinit var vaccineList: ArrayList<Vaccine>
     lateinit var adapter: ArrayAdapter<String>
@@ -126,12 +127,17 @@ class Vaccination : AppCompatActivity() {
                 expReference = FirebaseDatabase.getInstance().reference.child("Pet")
                     .child(ownerId).child("expired")
 
+                calculatorReference = FirebaseDatabase.getInstance().reference.child("Pet")
+                    .child(ownerId).child("calculator")
 
                 if (currentDateNewFormat.before(expDate)) {
                     Log.d("VAX DATE", "NOT EXPIRED")
                 } else {
                     val item = ExpiredItem("Vaccine", type, expDateString)
                     expReference.push().setValue(item)
+                    calculatorReference.child("expired")
+                        .child("vaccine")
+                        .setValue(expDateString)
                     Log.d("VAX DATE", "EXPIRED")
                 }
 
@@ -165,6 +171,7 @@ class Vaccination : AppCompatActivity() {
         }
 
         fetchVaccineList()
+
     }
 
     private fun fetchVaccineList() {

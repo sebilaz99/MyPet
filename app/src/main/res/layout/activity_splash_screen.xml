@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_bg_main"
     tools:context=".SplashScreen">
 
     <com.airbnb.lottie.LottieAnimationView
@@ -19,5 +20,6 @@
         app:lottie_autoPlay="true"
         app:lottie_loop="false"
         app:lottie_rawRes="@raw/paw_loading" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

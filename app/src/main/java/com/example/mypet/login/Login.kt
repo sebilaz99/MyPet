@@ -3,13 +3,13 @@ package com.example.mypet.login
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.ContextCompat
 import com.example.mypet.MainActivity
 import com.example.mypet.R
 import com.example.mypet.model.UserStatus
@@ -32,6 +32,7 @@ class Login : AppCompatActivity() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         supportActionBar?.hide()
 
+        window.statusBarColor = ContextCompat.getColor(applicationContext, R.color.medium_green)
 
         val logBtn = findViewById<AppCompatButton>(R.id.logInButton)
         val email = findViewById<EditText>(R.id.emailET)

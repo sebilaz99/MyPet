@@ -41,7 +41,7 @@ class Profile : AppCompatActivity() {
     private lateinit var profileReference: DatabaseReference
     private val taskMap: MutableMap<String, Any> = HashMap()
     private lateinit var photo: CircleImageView
-    private lateinit var saveBtn: AppCompatButton
+    private lateinit var saveBtn: ConstraintLayout
     private lateinit var profileItemList: ArrayList<ProfileItem>
     private lateinit var imageUri: Uri
 
@@ -92,7 +92,7 @@ class Profile : AppCompatActivity() {
                 Log.d("SNAPSHOT", nameSnapshot.toString())
                 name.text = nameSnapshot.toString()
                 breed.text = breedSnapshot.toString()
-                Glide.with(applicationContext)
+                Glide.with(photo.context)
                     .load(photoSnapshot)
                     .into(photo)
 
@@ -243,10 +243,9 @@ class Profile : AppCompatActivity() {
     }
 
     private fun uploadToStorage() {
-        photoRef = storageRef.child("photos/profileImage")
+        photoRef = storageRef.child("photos/$ownerId")
 
         photoRef.putFile(imageUri).addOnSuccessListener {
-            photo.setImageURI(null)
             Toast.makeText(this, "Image has been successfully updated!", Toast.LENGTH_SHORT).show()
             taskMap["photo"] = imageUri
             reference.updateChildren(taskMap)

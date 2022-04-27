@@ -4,8 +4,25 @@
     <item
         android:id="@+id/home"
         android:enabled="true"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/home"
         android:title="Home" />
 
-  
+    <item
+        android:id="@+id/vaccination"
+        android:enabled="true"
+        android:icon="@drawable/anesthesia"
+        android:title="Vaccination" />
+
+    <item
+        android:id="@+id/medication"
+        android:enabled="true"
+        android:icon="@drawable/pills"
+        android:title="Medication" />
+
+    <item
+        android:id="@+id/food"
+        android:enabled="true"
+        android:icon="@drawable/dog_food"
+        android:title="Food" />
+
 </menu>
