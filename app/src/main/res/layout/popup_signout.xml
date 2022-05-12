@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="250dp"
+    android:layout_gravity="center"
+    android:background="@color/light_green">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="222dp"
+        android:layout_height="70dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="138dp"
+        android:text="Are you sure you want to sign out?"
+        android:textAlignment="center"
+        android:textColor="@color/dark_green"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/noButton"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="148dp"
+        android:layout_marginEnd="135dp"
+        android:layout_marginBottom="52dp"
+        android:text="NO"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/yesButton"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="131dp"
+        android:layout_marginTop="149dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="51dp"
+        android:text="YES"
+        android:textColor="@color/black" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="109dp"
+        android:layout_marginTop="209dp"
+        android:layout_marginEnd="111dp"
+        android:layout_marginBottom="11dp"
+        android:src="@drawable/mypet_logo" />
+
+</RelativeLayout>

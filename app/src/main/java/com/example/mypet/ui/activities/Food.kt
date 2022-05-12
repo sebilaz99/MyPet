@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -38,9 +37,8 @@ class Food : AppCompatActivity() {
 
         supportActionBar?.title = "Food"
 
-        val txt = findViewById<TextView>(R.id.txt)
-        val bowl = findViewById<ImageView>(R.id.bowlIV)
-        val feedConstraint = findViewById<ConstraintLayout>(R.id.feedConstraint)
+        val foodConstraint = findViewById<ImageView>(R.id.foodConstraint)
+        val treatConstraint = findViewById<ImageView>(R.id.treatConstraint)
         val bottomConstraint = findViewById<ConstraintLayout>(R.id.bottomConstraint)
 
         val toy = findViewById<ImageView>(R.id.toyIV)
@@ -69,18 +67,6 @@ class Food : AppCompatActivity() {
         val currentDay = currentDate.subSequence(8, 10).toString()
         val currentDateStringFormat = "$currentDay-$currentMonth-$currentYear"
 
-
-        petReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val nameSnap = snapshot.child("name").value
-                txt.text = "Feed $nameSnap Now!"
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
-
         profileReference = FirebaseDatabase.getInstance().reference.child("Pet")
             .child(ownerId).child("profile")
 
@@ -100,49 +86,38 @@ class Food : AppCompatActivity() {
         })
 
 
-        reference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val timestampSnap = snapshot.child("timestamp").value
-
-                if (timestampSnap.toString() == currentDateStringFormat) {
-                    bowl.setImageResource(R.drawable.dog_food_checked)
-                    txt.text = "Your dog is fed"
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
-
         calculatorReference = FirebaseDatabase.getInstance().reference.child("Pet")
             .child(ownerId).child("calculator")
 
-        feedConstraint.setOnClickListener {
 
-            val foodIem = FoodItem(currentDateStringFormat)
-            reference.setValue(foodIem)
+        foodConstraint.setOnClickListener {
+            val foodIem = FoodItem(currentDateStringFormat, "food")
+            reference.child("food").setValue(foodIem)
 
             reference.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val timestampSnap = snapshot.child("timestamp").value
 
-                    when (timestampSnap.toString()) {
-                        currentDateStringFormat -> {
-                            Toast.makeText(
-                                this@Food,
-                                "You already fed your pet today",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            Log.d("FOOD", "Already fed today")
-                        }
+                    if (snapshot.child("type").value == "food") {
 
-                        else -> {
-                            calculatorReference.child("food").child(SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format(Date())).setValue("fed")
-                            Log.d("FOOD", "First time fed today")
+                        when (timestampSnap.toString()) {
+                            currentDateStringFormat -> {
+                                Toast.makeText(
+                                    this@Food,
+                                    "You already fed your pet today",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                Log.d("FOOD", "Already fed today")
+                            }
+
+                            else -> {
+                                calculatorReference.child("food")
+                                    .child(SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format(Date()))
+                                    .setValue("fed")
+                                Log.d("FOOD", "First time fed today")
+                            }
                         }
                     }
-
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -150,8 +125,77 @@ class Food : AppCompatActivity() {
                 }
             })
 
-            bowl.setImageResource(R.drawable.dog_food_checked)
+        }
 
+
+        treatConstraint.setOnClickListener {
+            val foodIem = FoodItem(currentDateStringFormat, "treat")
+            reference.child("treat").setValue(foodIem)
+
+            reference.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val timestampSnap = snapshot.child("timestamp").value
+
+                    if (snapshot.child("type").value == "treat") {
+
+                        when (timestampSnap.toString()) {
+                            currentDateStringFormat -> {
+                                Toast.makeText(
+                                    this@Food,
+                                    "You already treated your pet today",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                Log.d("TREAT", "Already treated today")
+                            }
+
+                            else -> {
+                                calculatorReference.child("food")
+                                    .child(SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format(Date()))
+                                    .setValue("fed")
+                                Log.d("TREAT", "First time treated today")
+                            }
+                        }
+                        val foodIem = FoodItem(currentDateStringFormat)
+                        reference.setValue(foodIem)
+
+                        reference.addValueEventListener(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                val timestampSnap = snapshot.child("timestamp").value
+
+                                when (timestampSnap.toString()) {
+                                    currentDateStringFormat -> {
+                                        Toast.makeText(
+                                            this@Food,
+                                            "You already fed your pet today",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                        Log.d("FOOD", "Already fed today")
+                                    }
+
+                                    else -> {
+                                        calculatorReference.child("food")
+                                            .child(
+                                                SimpleDateFormat("dd-MM-yyyy hh:mm:ss").format(
+                                                    Date()
+                                                )
+                                            )
+                                            .setValue("fed")
+                                        Log.d("FOOD", "First time fed today")
+                                    }
+                                }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                TODO("Not yet implemented")
+                            }
+                        })
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
         }
 
 

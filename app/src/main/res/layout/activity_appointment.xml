@@ -19,6 +19,63 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:translationY="-100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/medium_green"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:popupTheme="@style/Widget.AppCompat.PopupMenu"
+                tools:layout_editor_absoluteX="2dp"
+                tools:layout_editor_absoluteY="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/mypet_logo"
+                        android:translationX="-10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.256"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <TextView
+                        android:id="@+id/typeTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/short_baby"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/imageView"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.888" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
 
         <ImageView
             android:id="@+id/imageView3"
@@ -28,11 +85,10 @@
             android:background="@drawable/calendar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.14"
+            app:layout_constraintHorizontal_bias="0.139"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.234" />
-
+            app:layout_constraintVertical_bias="0.369" />
 
         <TextView
             android:id="@+id/tv1"
@@ -44,10 +100,10 @@
             android:textSize="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.023"
+            app:layout_constraintHorizontal_bias="0.029"
             app:layout_constraintStart_toEndOf="@+id/imageView3"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.236" />
+            app:layout_constraintVertical_bias="0.372" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dateBtn"
@@ -56,10 +112,10 @@
             android:background="@drawable/button_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.455"
+            app:layout_constraintHorizontal_bias="0.458"
             app:layout_constraintStart_toEndOf="@+id/tv1"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.214">
+            app:layout_constraintVertical_bias="0.361">
 
 
             <TextView
@@ -78,7 +134,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="20dp"
@@ -86,10 +141,10 @@
             android:background="@drawable/time"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.136"
+            app:layout_constraintHorizontal_bias="0.135"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3"
-            app:layout_constraintVertical_bias="0.42" />
+            app:layout_constraintVertical_bias="0.32" />
 
         <TextView
             android:id="@+id/tv2"
@@ -104,7 +159,7 @@
             app:layout_constraintHorizontal_bias="0.023"
             app:layout_constraintStart_toEndOf="@+id/imageView4"
             app:layout_constraintTop_toBottomOf="@+id/tv1"
-            app:layout_constraintVertical_bias="0.418" />
+            app:layout_constraintVertical_bias="0.297" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/timeBtn"
@@ -113,10 +168,10 @@
             android:background="@drawable/button_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.443"
+            app:layout_constraintHorizontal_bias="0.446"
             app:layout_constraintStart_toEndOf="@+id/tv2"
             app:layout_constraintTop_toBottomOf="@+id/dateBtn"
-            app:layout_constraintVertical_bias="0.352">
+            app:layout_constraintVertical_bias="0.191">
 
             <TextView
                 android:id="@+id/timeTV"
@@ -170,7 +225,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="350dp"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomConstraint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
@@ -181,7 +236,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/appointmentRV"
             android:layout_width="330dp"
-            android:layout_height="290dp"
+            android:layout_height="330dp"
             android:background="@drawable/dog_care"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -24,7 +25,6 @@ import com.example.mypet.login.Login
 import com.example.mypet.model.AppointmentItem
 import com.example.mypet.model.ExpiredItem
 import com.example.mypet.model.ServiceItem
-import com.example.mypet.model.UserStatus
 import com.example.mypet.ui.activities.*
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -42,6 +42,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -119,6 +120,16 @@ class MainActivity : AppCompatActivity() {
         appReference = FirebaseDatabase.getInstance().reference.child("Pet")
             .child(ownerId).child("appointments")
 
+
+        val currentDate = LocalDate.now().toString()
+        val currentYear = currentDate.subSequence(0, 4).toString()
+        val currentMonth = currentDate.subSequence(5, 7).toString()
+        val currentDay = currentDate.subSequence(8, 10).toString()
+        val currentDateStringFormat = "$currentDay-$currentMonth-$currentYear"
+        val currentDateNewFormat =
+            SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(currentDateStringFormat)
+
+
         autoUpdateBtn.setOnClickListener {
             referencesList = arrayListOf()
             expReference.addValueEventListener(object : ValueEventListener {
@@ -145,9 +156,29 @@ class MainActivity : AppCompatActivity() {
 
             foodReference.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val counter = snapshot.childrenCount
-                    referencesList.add(Pair("food", counter))
-                    Log.d("TEST", referencesList[1].second.toString())
+                    val feedDateSnapshot = snapshot.child("food").child("timestamp").value
+                    val treatDateSnapshot = snapshot.child("treat").child("timestamp").value
+
+                    if (snapshot.hasChildren()) {
+                        Log.d("DATEE", feedDateSnapshot.toString())
+
+                        if (currentDateNewFormat.after(
+                                SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(
+                                    feedDateSnapshot.toString()
+                                )
+                            )
+                            && currentDateNewFormat.after(
+                                SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(
+                                    treatDateSnapshot.toString()
+                                )
+                            )
+                        ) {
+                            referencesList.add(Pair("food", 2))
+                        }
+
+                    } else {
+                        referencesList.add(Pair("food", 0))
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -158,9 +189,12 @@ class MainActivity : AppCompatActivity() {
             petReference.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val scoreSnapshot = snapshot.child("score").value
+                    Log.d("SCORE", scoreSnapshot.toString())
+                    Log.d("LIST ", referencesList.toString())
                     var scoreLong = scoreSnapshot.toString().toLong()
+
                     scoreLong =
-                        scoreLong - (40 * referencesList[0].second) + (10 * referencesList[1].second) + (20 * referencesList[2].second)
+                        scoreLong - (50 * referencesList[0].second) + (10 * referencesList[1].second) + (10 * referencesList[2].second)
                     xpTV.text = scoreLong.toString()
 
                     when {
@@ -195,11 +229,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(Intent(this, Profile::class.java))
                 }
                 R.id.signOutItem -> {
-                    val taskMap: MutableMap<String, Any> = HashMap()
-                    taskMap["status"] = UserStatus.OFFLINE.toString()
-                    reference.updateChildren(taskMap)
-                    val intent = Intent(this, Login::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, Login::class.java))
                 }
                 R.id.factsItem -> {
                     startActivity(Intent(this, FunFacts::class.java))
@@ -224,14 +254,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
-        val currentDate = LocalDate.now().toString()
-        val currentYear = currentDate.subSequence(0, 4).toString()
-        val currentMonth = currentDate.subSequence(5, 7).toString()
-        val currentDay = currentDate.subSequence(8, 10).toString()
-        val currentDateStringFormat = "$currentDay-$currentMonth-$currentYear"
-        val currentDateNewFormat =
-            SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(currentDateStringFormat)
 
 
         appReference.addValueEventListener(
@@ -336,6 +358,12 @@ class MainActivity : AppCompatActivity() {
                             expList.add(item)
                         }
                         rv.adapter = ExpiredAdapter(options)
+                    }
+
+                    val txt = findViewById<TextView>(R.id.expiredText)
+
+                    if (snapshot.childrenCount.toInt() == 0) {
+                        txt.visibility = View.VISIBLE
                     }
                 }
 

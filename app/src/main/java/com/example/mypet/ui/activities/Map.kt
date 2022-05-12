@@ -60,7 +60,7 @@ class Map : AppCompatActivity() {
                         Point.fromLngLat(23.6099308, 46.7771242),
                         LocationItem(
                             "Cabinet Veterinar Cromavet Marasti",
-                            "Bulevardul 21 Decembrie 1989 148, Cluj-Napoca 400598, România",
+                            "Bulevardul 21 Decembrie 1989 148, Cluj-Napoca",
                             "www.cromavet.ro",
                             "+40737045106"
                         )
@@ -69,7 +69,7 @@ class Map : AppCompatActivity() {
                         Point.fromLngLat(23.6213428, 46.7876121),
                         LocationItem(
                             "Happy Dragon Vet",
-                            "Strada Teilor 3, Cluj-Napoca 400000, România",
+                            "Strada Teilor 3, Cluj-Napoca",
                             "happy-dragon-vet.business.site",
                             "+40770206201"
                         )
@@ -78,7 +78,7 @@ class Map : AppCompatActivity() {
                         Point.fromLngLat(23.5634564, 46.7570519),
                         LocationItem(
                             "Clinica Veterinară Alvet",
-                            "Strada Câmpului 51, Cluj-Napoca 400651, România",
+                            "Strada Câmpului 51, Cluj-Napoca",
                             "alvetcluj.ro",
                             "+40723577475"
                         )
@@ -89,7 +89,7 @@ class Map : AppCompatActivity() {
                         Point.fromLngLat(23.57315, 46.7566558),
                         LocationItem(
                             "Parc pentru câini",
-                            "Strada Gheorghe Dima 29, Cluj-Napoca 400000",
+                            "Strada Gheorghe Dima 29, Cluj-Napoca",
                             "www.usamvcluj.ro",
                             "+40264431910"
                         )
@@ -98,7 +98,7 @@ class Map : AppCompatActivity() {
                         Point.fromLngLat(23.5578337, 46.7595241),
                         LocationItem(
                             "Dog Park \"La Calvaria\"",
-                            "Cluj-Napoca 400000",
+                            "Cluj-Napoca",
                             "",
                             ""
                         )
@@ -107,7 +107,7 @@ class Map : AppCompatActivity() {
                         Point.fromLngLat(23.5372018, 46.7537669),
                         LocationItem(
                             "Parcul Colina",
-                            "Strada Bucium 15, Cluj-Napoca 400000",
+                            "Strada Bucium 15, Cluj-Napoca",
                             "",
                             ""
                         )
@@ -118,7 +118,7 @@ class Map : AppCompatActivity() {
                         Point.fromLngLat(23.6296948, 46.7691158),
                         LocationItem(
                             "Zoo Center",
-                            "Strada Alexandru Vaida Voevod 59, Cluj-Napoca 400000",
+                            "Strada Alexandru Vaida Voevod 59, Cluj-Napoca",
                             "www.zoocenter.ro",
                             "+40723283591"
                         )
@@ -127,7 +127,7 @@ class Map : AppCompatActivity() {
                         Point.fromLngLat(23.6129484, 46.7809801),
                         LocationItem(
                             "Royal Canin",
-                            "400620, Strada Fabricii 3, Cluj-Napoca 400000",
+                            "400620, Strada Fabricii 3, Cluj-Napoca",
                             "",
                             ""
                         )
@@ -136,7 +136,7 @@ class Map : AppCompatActivity() {
                         Point.fromLngLat(23.5387693, 46.7585162),
                         LocationItem(
                             "Animax",
-                            "Bulevardul 1 Decembrie 1918 142, Cluj-Napoca 400000 (Cora)",
+                            "Bulevardul 1 Decembrie 1918 142, Cluj-Napoca (Cora)",
                             "www.animax.ro",
                             "+40725888851"
                         )
