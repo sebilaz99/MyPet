@@ -22,7 +22,7 @@
     <item
         android:id="@+id/food"
         android:enabled="true"
-        android:icon="@drawable/dog_food"
+        android:icon="@drawable/food_bowl"
         android:title="Food" />
 
 </menu>

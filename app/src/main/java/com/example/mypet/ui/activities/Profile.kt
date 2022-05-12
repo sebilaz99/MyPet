@@ -92,8 +92,9 @@ class Profile : AppCompatActivity() {
                 Log.d("SNAPSHOT", nameSnapshot.toString())
                 name.text = nameSnapshot.toString()
                 breed.text = breedSnapshot.toString()
-                Glide.with(photo.context)
+                Glide.with(applicationContext)
                     .load(photoSnapshot)
+                    .placeholder(R.drawable.dog_placeholder)
                     .into(photo)
 
                 when (sexSnapshot.toString()) {
@@ -254,6 +255,5 @@ class Profile : AppCompatActivity() {
                 .into(photo)
         }
     }
-
 
 }

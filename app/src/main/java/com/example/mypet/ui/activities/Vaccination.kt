@@ -4,8 +4,10 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +19,6 @@ import com.example.mypet.model.ExpiredItem
 import com.example.mypet.model.Vaccine
 import com.example.mypet.model.VaccineType
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
@@ -44,7 +45,7 @@ class Vaccination : AppCompatActivity() {
 
         supportActionBar?.title = "Vaccines"
 
-        val addBtn = findViewById<FloatingActionButton>(R.id.addVaxBtn)
+        val addBtn = findViewById<AppCompatButton>(R.id.addVaxBtn)
         val startDateBtn = findViewById<Button>(R.id.dateBtn)
         val endDateBtn = findViewById<Button>(R.id.expBtn)
         val typeACTV = findViewById<AutoCompleteTextView>(R.id.typeAutoCompleteTextView)
@@ -201,6 +202,17 @@ class Vaccination : AppCompatActivity() {
                     rv.adapter = VaccinesAdapter(options)
                 }
 
+                val foundTxt = findViewById<TextView>(R.id.foundText)
+
+                if (snapshot.childrenCount.toInt() == 0) {
+                    foundTxt.visibility = View.VISIBLE
+                    rv.background =
+                        resources.getDrawable((com.firebase.ui.auth.R.color.fui_transparent))
+                } else {
+                    foundTxt.visibility = View.INVISIBLE
+                    rv.background =
+                        resources.getDrawable((R.drawable.dog_care))
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {

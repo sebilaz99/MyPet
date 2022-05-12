@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/medium_green"
     android:fitsSystemWindows="true"
     tools:context=".ui.activities.Map">
 
@@ -20,6 +20,52 @@
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             android:theme="@style/ThemeOverlay.MaterialComponents.Dark">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/medium_green"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:popupTheme="@style/Widget.AppCompat.PopupMenu"
+                tools:layout_editor_absoluteX="2dp"
+                tools:layout_editor_absoluteY="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/mypet_logo"
+                        android:translationX="-10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.397"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <TextView
+                        android:id="@+id/serviceNameTV"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/short_baby"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/imageView"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.888" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsingLayout"
@@ -37,12 +83,14 @@
                     android:layout_height="match_parent"
                     app:mapbox_cameraTargetLat="46.76902781837645"
                     app:mapbox_cameraTargetLng="23.58850479125977"
-                    app:mapbox_cameraZoom="12.0">
+                    app:mapbox_cameraZoom="10.0">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/homeIV"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/circle_grey"
+                        android:backgroundTint="@color/light_green"
                         android:src="@drawable/home"
                         android:translationX="10dp"
                         android:translationY="50dp" />
@@ -54,24 +102,12 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-        <TextView
-            android:id="@+id/serviceNameTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/short_baby"
-            android:text="Service"
-            android:textColor="@color/black"
-            android:textSize="36sp"
-            android:translationX="100dp"
-            android:translationY="650dp"
-            android:visibility="invisible" />
-
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedSV"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:translationY="-35dp"
             android:background="@drawable/map_illustration"
+            android:translationY="-55dp"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -90,7 +126,6 @@
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    android:translationY="10dp"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -106,13 +141,13 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:text="Address"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:translationX="10dp"
-                    android:translationY="5dp"
+                    android:translationY="-10dp"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.017"
+                    app:layout_constraintHorizontal_bias="0.025"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/locationNameTV"
                     app:layout_constraintVertical_bias="0.0" />
@@ -124,12 +159,13 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:text="Phone"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:translationX="10dp"
+                    android:translationY="-20dp"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.016"
+                    app:layout_constraintHorizontal_bias="0.053"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/locationAddressTV"
                     app:layout_constraintVertical_bias="0.0" />
@@ -139,7 +175,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Website"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
+                    android:translationY="-20dp"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

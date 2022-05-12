@@ -43,16 +43,16 @@ class Appointment : AppCompatActivity() {
         val appType = intent.getStringExtra("type")
         val appointmentType = "$appType Appointments"
 
-        supportActionBar?.title = appointmentType
-
         val bottomConstraint = findViewById<ConstraintLayout>(R.id.bottomConstraint)
         val dateBtn = findViewById<ConstraintLayout>(R.id.dateBtn)
         val timeBtn = findViewById<ConstraintLayout>(R.id.timeBtn)
         val dateTV = findViewById<TextView>(R.id.dateTV)
         val timeTV = findViewById<TextView>(R.id.timeTV)
         val addBtn = findViewById<AppCompatButton>(R.id.addAppointmentBtn)
+        val typeTV = findViewById<TextView>(R.id.typeTV)
         appRV = findViewById(R.id.appointmentRV)
 
+        typeTV.text = appointmentType
 
         val currentDate = LocalDate.now().toString()
         val currentYear = currentDate.subSequence(0, 4).toString()
