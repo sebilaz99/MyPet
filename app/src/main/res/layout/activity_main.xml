@@ -291,8 +291,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/short_baby"
-                android:visibility="invisible"
                 android:text="No expired vaccines/medications found"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -353,9 +353,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/appointmentsConstraint"
-            android:layout_width="300dp"
+            android:layout_width="200dp"
             android:layout_height="100dp"
-            android:translationX="-10dp"
+            android:translationX="-55dp"
             android:translationY="-110dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -369,6 +369,34 @@
                 android:padding="8dp"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="0dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/placeConstraint"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:background="@drawable/rounded_rectangular_green_both_sided"
+            android:translationX="-40dp"
+            android:translationY="-120dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/appointmentsConstraint"
+            app:layout_constraintTop_toTopOf="@+id/servicesConstraint">
+
+
+            <TextView
+                android:id="@+id/placeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/short_baby"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:text="@string/no_place_found"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

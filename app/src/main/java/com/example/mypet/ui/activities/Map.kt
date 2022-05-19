@@ -18,13 +18,20 @@ import androidx.core.widget.NestedScrollView
 import com.example.mypet.MainActivity
 import com.example.mypet.R
 import com.example.mypet.model.LocationItem
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.mapbox.geojson.Point
 import com.mapbox.maps.MapView
 import com.mapbox.maps.Style
 import com.mapbox.maps.plugin.annotation.annotations
 import com.mapbox.maps.plugin.annotation.generated.OnPointAnnotationClickListener
+import com.mapbox.maps.plugin.annotation.generated.OnPointAnnotationLongClickListener
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
 import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
+import java.text.SimpleDateFormat
+import java.util.*
 
 class Map : AppCompatActivity() {
 
@@ -35,6 +42,10 @@ class Map : AppCompatActivity() {
     private lateinit var website: TextView
     private lateinit var nested: NestedScrollView
     private lateinit var serviceName: TextView
+    private lateinit var auth: FirebaseAuth
+    private lateinit var ownerId: String
+    private lateinit var mapReference: DatabaseReference
+    private lateinit var serviceType: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,12 +60,19 @@ class Map : AppCompatActivity() {
         val type = intent.getStringExtra("type")
         serviceName.text = type
 
+
+        auth = FirebaseAuth.getInstance()
+        ownerId = auth.currentUser!!.uid
+        mapReference = FirebaseDatabase.getInstance().reference.child("Pet")
+            .child(ownerId).child("map")
+
+
         mapView?.getMapboxMap()?.loadStyleUri(
             Style.MAPBOX_STREETS
         ) {
-            val appType = intent.getStringExtra("type")
-            supportActionBar?.title = "$appType"
-            when ("$appType") {
+            serviceType = intent.getStringExtra("type").toString()
+            supportActionBar?.title = serviceType
+            when (serviceType) {
                 "Veterinary" -> {
                     addAnnotationToMap(
                         Point.fromLngLat(23.6099308, 46.7771242),
@@ -178,6 +196,20 @@ class Map : AppCompatActivity() {
                 address.text = location.address
                 phone.text = location.phone
                 website.text = location.website
+                true
+            })
+
+            pointAnnotationManager?.addLongClickListener(OnPointAnnotationLongClickListener {
+                Snackbar.make(
+                    window.decorView.rootView,
+                    "You want to pay this place a visit?",
+                    Snackbar.LENGTH_LONG
+                )
+                    .setAction("YES") {
+                        val currentDate = SimpleDateFormat("dd-MM-yyyy").format(Date())
+                        serviceType = intent.getStringExtra("type").toString()
+                        mapReference.child(currentDate).setValue(name.text.toString())
+                    }.show()
                 true
             })
             pointAnnotationManager?.create(pointAnnotationOptions)

@@ -28,11 +28,11 @@
             android:title="Fun Facts" />
 
         <item
-            android:id="@+id/settingsItem"
+            android:id="@+id/movementItem"
             android:enabled="true"
-            android:icon="@drawable/ic_settings"
+            android:icon="@drawable/ic_movement"
             android:iconTint="@color/black"
-            android:title="Settings" />
+            android:title="Movement" />
 
     </group>
 
