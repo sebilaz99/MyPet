@@ -6,9 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -53,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var expReference: DatabaseReference
     private lateinit var appReference: DatabaseReference
     private lateinit var foodReference: DatabaseReference
+    private lateinit var mapReference: DatabaseReference
     private var ownerId = ""
     private lateinit var expList: ArrayList<ExpiredItem>
     var xpLong by Delegates.notNull<Long>()
@@ -174,6 +173,19 @@ class MainActivity : AppCompatActivity() {
                             )
                         ) {
                             referencesList.add(Pair("food", 2))
+                        } else if (currentDateNewFormat.after(
+                                SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(
+                                    feedDateSnapshot.toString()
+                                )
+                            ) || currentDateNewFormat.after(
+                                SimpleDateFormat("dd-MM-yyyy", Locale.UK).parse(
+                                    treatDateSnapshot.toString()
+                                )
+                            )
+                        ) {
+                            referencesList.add(Pair("food", 1))
+                        } else {
+                            referencesList.add(Pair("food", 0))
                         }
 
                     } else {
@@ -197,6 +209,9 @@ class MainActivity : AppCompatActivity() {
                         scoreLong - (50 * referencesList[0].second) + (10 * referencesList[1].second) + (10 * referencesList[2].second)
                     xpTV.text = scoreLong.toString()
 
+                    Log.d("REFF", referencesList[2].second.toString())
+
+
                     when {
                         scoreLong.toInt() in 75..100 ->
                             xpTV.setTextColor(resources.getColor(R.color.medium_green))
@@ -206,6 +221,9 @@ class MainActivity : AppCompatActivity() {
 
                         scoreLong.toInt() in 0..30 ->
                             xpTV.setTextColor(resources.getColor(R.color.red))
+
+                        scoreLong.toInt() > 100 ->
+                            scoreLong = 100
                     }
 
                     progressBar.progress = scoreLong.toInt()
@@ -233,6 +251,15 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.factsItem -> {
                     startActivity(Intent(this, FunFacts::class.java))
+                }
+                R.id.movementItem -> {
+                    startActivity(Intent(this, Movement::class.java))
+                }
+                R.id.updateItem -> {
+                    val intent = intent
+                    finish()
+                    startActivity(intent)
+                    Toast.makeText(this, "The XP has been updated!", Toast.LENGTH_SHORT).show()
                 }
             }
             true
@@ -340,10 +367,8 @@ class MainActivity : AppCompatActivity() {
 
         expList = arrayListOf()
 
-        val spacingDecorator2 = SpacingDecorator(0, 10)
         val rv = findViewById<RecyclerView>(R.id.expiredRV)
         rv.layoutManager = LinearLayoutManager(this)
-        rv.addItemDecoration(spacingDecorator2)
         rv.setHasFixedSize(true)
 
         expReference.addValueEventListener(
@@ -402,6 +427,26 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("type", " ")
             startActivity(intent)
         }
+
+        // places constraint
+        val placeName = findViewById<TextView>(R.id.placeTV)
+
+        mapReference = FirebaseDatabase.getInstance().reference.child("Pet")
+            .child(ownerId).child("map")
+        mapReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.hasChildren()) {
+                    val date = SimpleDateFormat("dd-MM-yyyy").format(Date())
+                    val location = snapshot.child(date).value
+                    placeName.text = "To visit today: $location"
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

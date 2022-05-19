@@ -24,4 +24,6 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
 
+    <string name="no_place_found">No place to go today</string>
+
 </resources>
